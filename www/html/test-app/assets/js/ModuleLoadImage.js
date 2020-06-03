@@ -1,0 +1,1 @@
+console.log('load images by ajax');
