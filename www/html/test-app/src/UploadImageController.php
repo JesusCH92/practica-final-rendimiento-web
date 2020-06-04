@@ -8,6 +8,6 @@ class UploadImageController extends BaseController
 {
     public function __invoke()
     {
-        return Response::create($this->templateEngine->render('base.html.twig', []));
+        return Response::create($this->templateEngine->render('LoadImages/loadImages.html.twig', []));
     }
 }
