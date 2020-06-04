@@ -2,24 +2,26 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Log App{% endblock %}</title>
+        <title>{% block title %}Load Images App{% endblock %}</title>
             {% block head_css %}
                 <!-- Copy CSS from https://getbootstrap.com/docs/4.4/getting-started/introduction/#css -->
                 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
             {% endblock %}
         {% block stylesheets %}
+            <link rel="stylesheet" href="/assets/css/dropzone.css" type="text/css">
         {% endblock %}
 
     </head>
     <body>
         <h1 id="title">Load your photos</h1>
+
         {% block body %}
         
         {% endblock %}
 
         {% block javascripts %}
             <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
-        <script type="text/javascript" src="/assets/js/ModuleLoadImage.js"></script> 
+            <script type="text/javascript" src="/assets/js/dropzone.js"></script>  
         {% endblock %}
         {% block head_js %}
     <!-- Copy JavaScript from https://getbootstrap.com/docs/4.4/getting-started/introduction/#js -->
