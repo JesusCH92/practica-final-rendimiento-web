@@ -16,6 +16,7 @@ use Symfony\Component\HttpFoundation\Request;
 // If you add a new route don't forget to include it's namespace
 use TestApp\UserController;
 use TestApp\HomeController;
+use TestApp\SavePhotosController;
 use TestApp\UploadImageController;
 
 /*
@@ -48,6 +49,7 @@ $routes = [
     'get_user'  => (new Route('/users/',     ['controller' => UserController::class]))->setMethods([Request::METHOD_GET]),
     'post_user' => (new Route('/users/{id}', ['controller' => UserController::class, 'method' => 'create']))->setMethods([Request::METHOD_POST]),
     'load_img'  => (new Route('/imagen',     ['controller' => UploadImageController::class]))->setMethods([Request::METHOD_GET]),
+    'save_img'  => (new Route('/save_photos', ['controller' => SavePhotosController::class]))->setMethods([Request::METHOD_POST]),
 ];
 
 /*
