@@ -3,11 +3,12 @@
 {% block stylesheets %} {{ parent() }} {% endblock %}
 
 {% block body %}
-    <form action="/file-upload" class="dropzone">
+    <form action="/save_photos" class="dropzone" method="POST" id="dropzoneFrom">
         <div class="fallback">
-            <input name="file" type="file" multiple />
+            <input name="file" type="file" multiple id="archivos">
         </div>
     </form>
+    <button type="submit" class="btn btn-dark" id="clear-photos-btn">Clear photos</button>
 {% endblock %}
 
 {% block head_js %}
