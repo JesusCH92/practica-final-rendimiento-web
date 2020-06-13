@@ -1,10 +1,4 @@
 var LoadImagesModule = (function(){
-    var $clearPhotosBtn = $("#clear-photos-btn");
-    // var $dropzone = new Dropzone("#archivos", {
-    //     url: '/save_photos'
-    // });
-    // var $photos = $("#photos");
-    // var $photos = $("div#myId").dropzone({ url: "/file/post" });
     console.log('load images by ajax');
     Dropzone.options.dropzoneFrom = {
         autoProcessQueue: false,
