@@ -17,5 +17,6 @@ class BaseController
             'debug' => true,
             // 'cache' => 'false',
         ]); 
+        $this->templateEngine->addExtension(new \Twig\Extension\DebugExtension());
     }
 }
