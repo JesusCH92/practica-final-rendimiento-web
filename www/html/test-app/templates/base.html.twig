@@ -9,6 +9,7 @@
             {% endblock %}
         {% block stylesheets %}
             <link rel="stylesheet" href="/assets/css/dropzone.css" type="text/css">
+            <link rel="stylesheet" href="/assets/css/styles.css" type="text/css">
         {% endblock %}
 
     </head>
@@ -32,10 +33,11 @@
             </div>
         </nav>
 
+        <div class="container main-container">
         {% block body %}
         
         {% endblock %}
-
+        </div>
         {% block javascripts %}
             <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
             <script type="text/javascript" src="/assets/js/dropzone.js"></script>  
