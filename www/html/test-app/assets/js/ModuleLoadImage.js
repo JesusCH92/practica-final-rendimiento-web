@@ -2,7 +2,7 @@ var LoadImagesModule = (function(){
     console.log('load images by ajax');
     Dropzone.options.dropzoneFrom = {
         autoProcessQueue: false,
-        acceptedFiles:".png,.jpg,.gif,.bmp,.jpeg",
+        acceptedFiles:".png,.jpg",
         parallelUploads: 10,
         init: function(){
             var submitButton = document.querySelector('#clear-photos-btn');
@@ -32,5 +32,14 @@ var LoadImagesModule = (function(){
             }
         });
     };
+
+    var initEvents = function(){
+        // $editImagenBtn.click(function(){
+        //     console.log('hello there!');
+        //     getPhotos();
+        // });
+    }
+
+    initEvents();
 
 })()
