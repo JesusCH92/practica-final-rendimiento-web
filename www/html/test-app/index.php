@@ -12,7 +12,7 @@ use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouteCollection;
 use Symfony\Component\HttpFoundation\Request;
-
+use TestApp\EditedImagesController;
 // If you add a new route don't forget to include it's namespace
 use TestApp\UserController;
 use TestApp\HomeController;
@@ -50,6 +50,7 @@ $routes = [
     'post_user' => (new Route('/users/{id}', ['controller' => UserController::class, 'method' => 'create']))->setMethods([Request::METHOD_POST]),
     'load_img'  => (new Route('/imagen',     ['controller' => UploadImageController::class]))->setMethods([Request::METHOD_GET]),
     'save_img'  => (new Route('/save_photos', ['controller' => SavePhotosController::class]))->setMethods([Request::METHOD_POST]),
+    'edit_img'  => (new Route('/edit-imagen', ['controller' => EditedImagesController::class]))->setMethods([Request::METHOD_GET]),
 ];
 
 /*
