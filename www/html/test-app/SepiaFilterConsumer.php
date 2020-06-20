@@ -15,40 +15,24 @@ $channel->queue_declare('sepia', false, false, false, false);
 
 echo 'Add filter to images ' . PHP_EOL;
 echo 'Hello there!' . PHP_EOL;
-echo 'madein madein!!' . PHP_EOL;
 
-$callback = function ($msg) {
+$filterImageCreator = new FilterImageCreator();
+$addFilterImagesService = new AddFilterImagesService($filterImageCreator);
+
+$callback = function ($msg) use ($addFilterImagesService){
     echo ' [x] Add Filter sepia: ' . $msg->body . PHP_EOL;
     $imageProperties = json_decode($msg->body);
     var_dump($imageProperties);
 
-    // $filterImageCreator = new FilterImageCreator();
-    // $addFilterImagesService = new AddFilterImagesService($filterImageCreator);
     echo 'general kenobi!' . PHP_EOL;
 
-    // $addFilterImagesService->__invoke($imageProperties->file_path, $imageProperties->file_name, $imageProperties->file_extension, 'addSepiaFilter');
-    echo 'there is a new service for add filter to images!! ' . PHP_EOL;
-
-    // $imagePath = $imageProperties->file_path;
-    $imagePath = '/code/test-app/assets/files';
+    $imagePath = $imageProperties->file_path;
     $imageName = $imageProperties->file_name;
     $imageExtension = $imageProperties->file_extension;
 
-    echo "$imagePath/$imageName.$imageExtension" . PHP_EOL;
+    $addFilterImagesService->__invoke($imagePath, $imageName, $imageExtension, 'addSepiaFilter');
 
-    try {
-        $imageClaviskaSimpleImage = new \claviska\SimpleImage();
-        $imageClaviskaSimpleImage
-            ->fromFile("$imagePath/$imageName.$imageExtension")
-            ->sepia()
-            ->toFile("$imagePath/sepia-$imageName.$imageExtension", 'image/png')
-            ->toScreen();
-        echo 'it works? ' . PHP_EOL;
-    } catch (Exception $err) {
-        echo 'mierddddda ' . PHP_EOL;
-        // echo $err->getMessage();
-    }
-    echo 'image create ' . PHP_EOL;
+    echo 'order 66 is execute!!!' . PHP_EOL;
 };
 
 $channel->basic_consume('sepia', '', false, true, false, false, $callback);
