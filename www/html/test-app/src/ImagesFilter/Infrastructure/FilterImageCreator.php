@@ -18,10 +18,10 @@ class FilterImageCreator implements FilterRepository
             $imageClaviskaSimpleImage
                 ->fromFile("$imagePath/$imageName.$imageExtension")
                 ->sepia()
-                ->toFile("$imagePath/sepia-$imageName.png", 'image/png')
-                ->toScreen();
+                ->toFile("$imagePath/sepia-$imageName.png", 'image/png');
+
+            echo 'image create ' . PHP_EOL;
         } catch (\Exception $err) {
-            echo 'mierddddda ' . PHP_EOL;
             echo $err->getMessage();
         }
     }
