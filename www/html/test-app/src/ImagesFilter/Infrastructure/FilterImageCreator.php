@@ -18,7 +18,36 @@ class FilterImageCreator implements FilterRepository
             $imageClaviskaSimpleImage
                 ->fromFile("$imagePath/$imageName.$imageExtension")
                 ->sepia()
-                ->toFile("$imagePath/sepia-$imageName.png", 'image/png');
+                ->toFile("$imagePath/$imageName-sepia.png", 'image/png');
+
+            echo 'image create ' . PHP_EOL;
+        } catch (\Exception $err) {
+            echo $err->getMessage();
+        }
+    }
+    public function addBlackAndWhiteFilter(string $imagePath, string $imageName, string $imageExtension)
+    {
+        try {
+            $imageClaviskaSimpleImage = $this->claviskaSimpleImage;
+            $imageClaviskaSimpleImage
+                ->fromFile("$imagePath/$imageName.$imageExtension")
+                ->duotone('white', 'black')
+                ->toFile("$imagePath/$imageName-black-and-white.png", 'image/png');
+
+            echo 'image create ' . PHP_EOL;
+        } catch (\Exception $err) {
+            echo $err->getMessage();
+        }
+    }
+
+    public function addFlipHorizontalFilter(string $imagePath, string $imageName, string $imageExtension)
+    {
+        try {
+            $imageClaviskaSimpleImage = $this->claviskaSimpleImage;
+            $imageClaviskaSimpleImage
+                ->fromFile("$imagePath/$imageName.$imageExtension")
+                ->flip('x')
+                ->toFile("$imagePath/$imageName-flip-horizontal.png", 'image/png');
 
             echo 'image create ' . PHP_EOL;
         } catch (\Exception $err) {
