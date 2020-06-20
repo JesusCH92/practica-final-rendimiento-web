@@ -47,7 +47,24 @@ class FilterImageCreator implements FilterRepository
             $imageClaviskaSimpleImage
                 ->fromFile("$imagePath/$imageName.$imageExtension")
                 ->flip('x')
+                ->border('black', 5)
                 ->toFile("$imagePath/$imageName-flip-horizontal.png", 'image/png');
+
+            echo 'image create ' . PHP_EOL;
+        } catch (\Exception $err) {
+            echo $err->getMessage();
+        }
+    }
+
+    public function addFlipVerticalFilter(string $imagePath, string $imageName, string $imageExtension)
+    {
+        try {
+            $imageClaviskaSimpleImage = $this->claviskaSimpleImage;
+            $imageClaviskaSimpleImage
+                ->fromFile("$imagePath/$imageName.$imageExtension")
+                ->flip('y')
+                ->border('black', 5)
+                ->toFile("$imagePath/$imageName-flip-vertical.png", 'image/png');
 
             echo 'image create ' . PHP_EOL;
         } catch (\Exception $err) {
