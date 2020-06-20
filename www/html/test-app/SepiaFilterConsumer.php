@@ -22,7 +22,6 @@ $addFilterImagesService = new AddFilterImagesService($filterImageCreator);
 $callback = function ($msg) use ($addFilterImagesService){
     echo ' [x] Add Filter sepia: ' . $msg->body . PHP_EOL;
     $imageProperties = json_decode($msg->body);
-    var_dump($imageProperties);
 
     echo 'general kenobi!' . PHP_EOL;
 
