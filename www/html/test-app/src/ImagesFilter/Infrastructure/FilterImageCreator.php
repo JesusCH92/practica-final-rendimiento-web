@@ -72,6 +72,24 @@ class FilterImageCreator implements FilterRepository
         }
     }
 
+    public function addDarkBlueFilter(string $imagePath, string $imageName, string $imageExtension)
+    {
+        try {
+            $imageClaviskaSimpleImage = $this->claviskaSimpleImage;
+            $imageClaviskaSimpleImage
+                ->fromFile("$imagePath/$imageName.$imageExtension")
+                ->flip('x')
+                ->flip('y')
+                ->colorize('DarkBlue')
+                ->border('black', 5)
+                ->toFile("$imagePath/$imageName-darkblue.png", 'image/png');
+
+            echo 'image create ' . PHP_EOL;
+        } catch (\Exception $err) {
+            echo $err->getMessage();
+        }
+    }
+
     public function createFilterImage(string $imagePath, string $imageName, string $imageExtension, string $filterAdded)
     {
         $this->$filterAdded($imagePath, $imageName, $imageExtension);
