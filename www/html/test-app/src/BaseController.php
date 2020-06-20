@@ -8,7 +8,7 @@ class BaseController
     /** @var array */
     protected $dc;
     protected $templateEngine;
-    const IMAGESFILTERCONSUMERS = ['sepia', 'blackAndWhite'];
+    const IMAGESFILTERCONSUMERS = ['sepia', 'blackAndWhite', 'flipHorizontal'];
 
     public function __construct(array $dc)
     {
