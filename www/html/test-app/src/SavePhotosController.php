@@ -20,17 +20,20 @@ class SavePhotosController extends BaseController
         var_dump($_FILES['file']);
         echo 'merda';
         // $archivo = $_FILES['photos'];
-        $archivo = $_FILES['file'];
+        $file = $_FILES['file'];
 
-        var_dump($archivo);
-        $templocation = $archivo["tmp_name"];
-        $name = $archivo["name"];
+        var_dump($file);
+        $templocation = $file["tmp_name"];
+        $fileNameAndExtension = explode('.', $file["name"]);
+
+        $fileName = $fileNameAndExtension[0];
+        $fileExtension = $fileNameAndExtension[1];
 
         $routeFiles = __DIR__ . '/../assets/files';
         if (!$templocation) {
             die('no ha seleccionado ningun archivo');
         } 
-        if (!move_uploaded_file($templocation, "$routeFiles/$name")) {
+        if (!move_uploaded_file($templocation, "$routeFiles/$fileName.$fileExtension")) {
             echo 'error al guardar archivo';
         }
 
@@ -39,7 +42,8 @@ class SavePhotosController extends BaseController
             $channel->queue_declare('imageFiler', false, false, false, false);
 
             $msg = new AMQPMessage(json_encode([
-                'file_name' => $name,
+                'file_name' => $fileName,
+                'file_extension' =>$fileExtension,
                 'file_path' => $routeFiles
             ]));
             
