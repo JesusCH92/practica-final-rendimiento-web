@@ -34,7 +34,6 @@ $callback = function ($msg) use ($addFilterImagesService){
         echo $exceptionClassToHumanMessage->map(get_class($exception)) . '. Error code: ' . $exception->getCode(
             ) . '.' . PHP_EOL;
     }
-    echo 'order 66 is execute!!!' . PHP_EOL;
 };
 
 $channel->basic_consume('sepia', '', false, true, false, false, $callback);
