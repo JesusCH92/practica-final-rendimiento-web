@@ -13,6 +13,7 @@ class AddFilterImagesService
     }
     public function __invoke(string $imagePath, string $imageName, string $imageExtension, string $filterAdded)
     {
-        $this->filterRepository->createFilterImage($imagePath, $imageName, $imageExtension, $filterAdded);
+        $isFilterImageCreate = $this->filterRepository->createFilterImage($imagePath, $imageName, $imageExtension, $filterAdded);
+        return $isFilterImageCreate;
     }
 }
