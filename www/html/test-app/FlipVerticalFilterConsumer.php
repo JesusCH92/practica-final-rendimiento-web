@@ -3,9 +3,14 @@
 require_once __DIR__ . '/vendor/autoload.php';
 
 use PhpAmqpLib\Connection\AMQPStreamConnection;
+use Symfony\Component\EventDispatcher\EventDispatcher;
+use TestApp\ImageSaver\ApplicationService\ImageCreatorListener;
+use TestApp\ImageSaver\Domain\ImageCreateDomainEvent;
+use TestApp\ImageSaver\Infrastructure\ImageInDatabase;
 use TestApp\ImagesFilter\ApplicationService\AddFilterImagesService;
 use TestApp\ImagesFilter\Infrastructure\FilterImageCreator;
 use TestApp\Shared\Infrastructure\Exceptions\ExceptionClassToHumanMessageMapper;
+use TestApp\Shared\Infrastructure\ImageDBConnector;
 
 use function GuzzleHttp\json_decode;
 
@@ -16,8 +21,19 @@ $channel->queue_declare('flipVertical', false, false, false, false);
 
 echo 'Add flip vertical filter to images ' . PHP_EOL;
 
+$imageDBConnector = new ImageDBConnector();
+$imageInDatabase = new ImageInDatabase($imageDBConnector);
+$imageCreatorListener = new ImageCreatorListener($imageInDatabase);
+
+$symfonyEventDispatcher = new EventDispatcher();
+
+$symfonyEventDispatcher->addListener(
+    ImageCreateDomainEvent::EVENTNAME, 
+    array($imageCreatorListener, 'imageCreator')
+);
+
 $filterImageCreator = new FilterImageCreator();
-$addFilterImagesService = new AddFilterImagesService($filterImageCreator);
+$addFilterImagesService = new AddFilterImagesService($filterImageCreator, $symfonyEventDispatcher);
 
 $callback = function ($msg) use ($addFilterImagesService){
     try{
