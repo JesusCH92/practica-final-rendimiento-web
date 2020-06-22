@@ -16,7 +16,6 @@ class ImageCreatorListener
 
     public function imageCreator(ImageCreateDomainEvent $event)
     {
-        var_dump($event);
         $imagePath = $event->imagePath();
         $imageName = $event->imageName();
         $imageExtension = $event->imageExtension();
