@@ -13,34 +13,34 @@ class FilterImageCreator implements FilterRepository
         $this->claviskaSimpleImage = new \claviska\SimpleImage();
     }
 
-    public function addSepiaFilter(string $imagePath, string $imageName, string $imageExtension)
+    public function addSepiaFilter(string $imagePath, string $imageName, string $imageExtension, string $filterName)
     {
         try {
             $imageClaviskaSimpleImage = $this->claviskaSimpleImage;
             $imageClaviskaSimpleImage
                 ->fromFile("$imagePath/$imageName.$imageExtension")
                 ->sepia()
-                ->toFile("$imagePath/$imageName-sepia.png", 'image/png');
+                ->toFile("$imagePath/$imageName-$filterName.png", 'image/png');
         } catch (\Exception $err) {
             throw new AddFilterFailedException();
         }
         return self::SUCCESSFULLFILTERIMAGE;
     }
-    public function addBlackAndWhiteFilter(string $imagePath, string $imageName, string $imageExtension)
+    public function addBlackAndWhiteFilter(string $imagePath, string $imageName, string $imageExtension, string $filterName)
     {
         try {
             $imageClaviskaSimpleImage = $this->claviskaSimpleImage;
             $imageClaviskaSimpleImage
                 ->fromFile("$imagePath/$imageName.$imageExtension")
                 ->duotone('white', 'black')
-                ->toFile("$imagePath/$imageName-black-and-white.png", 'image/png');
+                ->toFile("$imagePath/$imageName-$filterName.png", 'image/png');
         } catch (\Exception $err) {
             echo $err->getMessage();
         }
         return self::SUCCESSFULLFILTERIMAGE;
     }
 
-    public function addFlipHorizontalFilter(string $imagePath, string $imageName, string $imageExtension)
+    public function addFlipHorizontalFilter(string $imagePath, string $imageName, string $imageExtension, string $filterName)
     {
         try {
             $imageClaviskaSimpleImage = $this->claviskaSimpleImage;
@@ -48,14 +48,14 @@ class FilterImageCreator implements FilterRepository
                 ->fromFile("$imagePath/$imageName.$imageExtension")
                 ->flip('x')
                 ->border('black', 5)
-                ->toFile("$imagePath/$imageName-flip-horizontal.png", 'image/png');
+                ->toFile("$imagePath/$imageName-$filterName.png", 'image/png');
         } catch (\Exception $err) {
             echo $err->getMessage();
         }
         return self::SUCCESSFULLFILTERIMAGE;
     }
 
-    public function addFlipVerticalFilter(string $imagePath, string $imageName, string $imageExtension)
+    public function addFlipVerticalFilter(string $imagePath, string $imageName, string $imageExtension, string $filterName)
     {
         try {
             $imageClaviskaSimpleImage = $this->claviskaSimpleImage;
@@ -63,14 +63,14 @@ class FilterImageCreator implements FilterRepository
                 ->fromFile("$imagePath/$imageName.$imageExtension")
                 ->flip('y')
                 ->border('black', 5)
-                ->toFile("$imagePath/$imageName-flip-vertical.png", 'image/png');
+                ->toFile("$imagePath/$imageName-$filterName.png", 'image/png');
         } catch (\Exception $err) {
             echo $err->getMessage();
         }
         return self::SUCCESSFULLFILTERIMAGE;
     }
 
-    public function addDarkBlueFilter(string $imagePath, string $imageName, string $imageExtension)
+    public function addDarkBlueFilter(string $imagePath, string $imageName, string $imageExtension, string $filterName)
     {
         try {
             $imageClaviskaSimpleImage = $this->claviskaSimpleImage;
@@ -80,7 +80,7 @@ class FilterImageCreator implements FilterRepository
                 ->flip('y')
                 ->colorize('DarkBlue')
                 ->border('black', 5)
-                ->toFile("$imagePath/$imageName-darkblue.png", 'image/png');
+                ->toFile("$imagePath/$imageName-$filterName.png", 'image/png');
         } catch (\Exception $err) {
             throw new AddFilterFailedException();
         }
@@ -89,7 +89,7 @@ class FilterImageCreator implements FilterRepository
 
     public function createFilterImage(string $imagePath, string $imageName, string $imageExtension, string $filterAdded)
     {
-        $filterImageCreated = $this->$filterAdded($imagePath, $imageName, $imageExtension);
+        $filterImageCreated = $this->$filterAdded($imagePath, $imageName, $imageExtension, $filterAdded);
         return $filterImageCreated;
     }
 }
