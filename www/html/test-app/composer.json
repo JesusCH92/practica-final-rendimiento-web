@@ -10,7 +10,8 @@
     "ext-pdo": "*",
     "guzzlehttp/guzzle": "~6.0",
     "twig/twig": "^3.0",
-    "claviska/simpleimage": "^3.3"
+    "claviska/simpleimage": "^3.3",
+    "symfony/event-dispatcher": "^5.1"
   },
   "autoload": {
     "psr-4": { "TestApp\\": "src/" }
