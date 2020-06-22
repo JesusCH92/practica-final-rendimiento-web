@@ -3,9 +3,14 @@
 require_once __DIR__ . '/vendor/autoload.php';
 
 use PhpAmqpLib\Connection\AMQPStreamConnection;
+use Symfony\Component\EventDispatcher\EventDispatcher;
+use TestApp\ImageSaver\ApplicationService\ImageCreatorListener;
+use TestApp\ImageSaver\Domain\ImageCreateDomainEvent;
+use TestApp\ImageSaver\Infrastructure\ImageInDatabase;
 use TestApp\ImagesFilter\ApplicationService\AddFilterImagesService;
 use TestApp\ImagesFilter\Infrastructure\FilterImageCreator;
 use TestApp\Shared\Infrastructure\Exceptions\ExceptionClassToHumanMessageMapper;
+use TestApp\Shared\Infrastructure\ImageDBConnector;
 
 use function GuzzleHttp\json_decode;
 
@@ -16,16 +21,27 @@ $channel->queue_declare('sepia', false, false, false, false);
 
 echo 'Add sepia filter to images ' . PHP_EOL;
 
-$filterImageCreator = new FilterImageCreator();
-$addFilterImagesService = new AddFilterImagesService($filterImageCreator);
+$imageDBConnector = new ImageDBConnector();
+$imageInDatabase = new ImageInDatabase($imageDBConnector);
+$imageCreatorListener = new ImageCreatorListener($imageInDatabase);
 
-$callback = function ($msg) use ($addFilterImagesService){
+$symfonyEventDispatcher = new EventDispatcher();
+
+$filterImageCreator = new FilterImageCreator();
+$addFilterImagesService = new AddFilterImagesService($filterImageCreator, $symfonyEventDispatcher);
+
+$callback = function ($msg) use ($addFilterImagesService, $symfonyEventDispatcher, $imageCreatorListener){
     try{
         $imageProperties = json_decode($msg->body);
 
         $imagePath = $imageProperties->file_path;
         $imageName = $imageProperties->file_name;
         $imageExtension = $imageProperties->file_extension;
+
+        $symfonyEventDispatcher->addListener(
+            ImageCreateDomainEvent::EVENTNAME, 
+            array($imageCreatorListener, 'imageCreator')
+        );
     
         $filterImageCreate = $addFilterImagesService->__invoke($imagePath, $imageName, $imageExtension, 'addSepiaFilter');
         echo $filterImageCreate . PHP_EOL;
