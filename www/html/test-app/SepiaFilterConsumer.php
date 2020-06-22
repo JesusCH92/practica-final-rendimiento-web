@@ -27,21 +27,21 @@ $imageCreatorListener = new ImageCreatorListener($imageInDatabase);
 
 $symfonyEventDispatcher = new EventDispatcher();
 
+$symfonyEventDispatcher->addListener(
+    ImageCreateDomainEvent::EVENTNAME, 
+    array($imageCreatorListener, 'imageCreator')
+);
+
 $filterImageCreator = new FilterImageCreator();
 $addFilterImagesService = new AddFilterImagesService($filterImageCreator, $symfonyEventDispatcher);
 
-$callback = function ($msg) use ($addFilterImagesService, $symfonyEventDispatcher, $imageCreatorListener){
+$callback = function ($msg) use ($addFilterImagesService){
     try{
         $imageProperties = json_decode($msg->body);
 
         $imagePath = $imageProperties->file_path;
         $imageName = $imageProperties->file_name;
         $imageExtension = $imageProperties->file_extension;
-
-        $symfonyEventDispatcher->addListener(
-            ImageCreateDomainEvent::EVENTNAME, 
-            array($imageCreatorListener, 'imageCreator')
-        );
     
         $filterImageCreate = $addFilterImagesService->__invoke($imagePath, $imageName, $imageExtension, 'addSepiaFilter');
         echo $filterImageCreate . PHP_EOL;
