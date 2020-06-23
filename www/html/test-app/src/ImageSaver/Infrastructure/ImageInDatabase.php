@@ -44,11 +44,18 @@ class ImageInDatabase implements ImageRepository
         return $imageInDB;
     }
 
-    public function imageSavedInMySQL(string $image)
+    public function imageSavedInMySQL(string $imageName, string $tags)
     {
+        $stmt = $this->imageDBConnector->pdo()->prepare(
+            'INSERT INTO images(image, tags) VALUES (:imageName, :tags)'
+        );
+        $stmt->bindValue("imageName", $imageName);
+        $stmt->bindValue("tags", $tags);
+        $stmt->execute();
+
         echo 'aqui guardaremos la imagen: falta implementarlo' . PHP_EOL;
         echo 'esto ha guardado redis de la image: ' . PHP_EOL;
-        var_dump(   $this->imageDBConnector->redis()->get($image)  );
+        var_dump(   $this->imageDBConnector->redis()->get($imageName)  );
         echo 'Estas son todas las keys en Redis: ' . PHP_EOL;
         var_dump(   $this->imageDBConnector->redis()->keys('*')  );
 
