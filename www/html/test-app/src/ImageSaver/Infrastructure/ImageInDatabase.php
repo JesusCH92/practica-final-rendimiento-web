@@ -30,6 +30,20 @@ class ImageInDatabase implements ImageRepository
         $this->imageDBConnector->redis()->set($image,json_encode($imageMetadata));
     }
 
+    public function isImageInDB(string $imageName)
+    {
+        $stmt = $this->imageDBConnector->pdo()->prepare(
+            'SELECT image, tags FROM images WHERE image = :image'
+        );
+        $stmt->bindValue("image", $imageName);
+        $stmt->execute();
+        $imageInDB = $stmt->fetchAll();
+
+        $imageInDB = 0 === count($imageInDB) ? null : $imageInDB;
+
+        return $imageInDB;
+    }
+
     public function imageSavedInMySQL(string $image)
     {
         echo 'aqui guardaremos la imagen: falta implementarlo' . PHP_EOL;
