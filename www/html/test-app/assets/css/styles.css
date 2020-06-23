@@ -1,12 +1,16 @@
 .container-images{
     height: 100%;   width: 100%;
-    background-color: blueviolet;
-}
-
-.container-images{
-    width: 100%;    height: 100%;
 }
 
 .photos{
     width: 100%;    height: 250px;
+}
+
+.metadata-image{
+    background-color: #8795a2;
+}
+
+.metadata-image:hover{
+    background-color: #545f68;
+    font-weight: bold;
 }
