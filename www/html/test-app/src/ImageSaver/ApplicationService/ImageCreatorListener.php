@@ -28,6 +28,13 @@ class ImageCreatorListener
             $this->imageRespository->imageSavedInRedis($image, $filterAdded, 'descripcion-prueba');
         }
 
-        $this->imageRespository->imageSavedInMySQL($image);
+        $isImageInDB = $this->imageRespository->isImageInDB($image);
+
+        if (null !== $isImageInDB) {
+            echo 'image exist in MySQL ' . PHP_EOL;
+            return;
+        }
+        echo 'image saved in MySQL ' . PHP_EOL;
+        $this->imageRespository->imageSavedInMySQL($image, $filterAdded);
     }
 }
