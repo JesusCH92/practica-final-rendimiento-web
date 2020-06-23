@@ -21,7 +21,7 @@ class ImageCreatorListener
         $imageExtension = $event->imageExtension();
         $filterAdded = $event->filterAdded();
         
-        $image = "$imagePath/$imageName-$filterAdded.$imageExtension";
+        $image = $filterAdded === "" ? "$imagePath/$imageName.$imageExtension" : "$imagePath/$imageName-$filterAdded.$imageExtension";
 
         if (!$this->imageRespository->isImageInRedis($image)) {
             echo 'image saved in Redis ' . PHP_EOL;
