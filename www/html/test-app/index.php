@@ -5,6 +5,7 @@ require_once __DIR__ . '/vendor/autoload.php';
 use GuzzleHttp\Client as GuzzleClient;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 use Elasticsearch\ClientBuilder;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Component\Routing\Matcher\UrlMatcher;
@@ -30,13 +31,15 @@ $redis->connect('redis');
 $rabbitmq = new AMQPStreamConnection('rabbitmq', 5672, 'rabbitmq', 'rabbitmq');
 $elasticsearch = $client = ClientBuilder::create()->setHosts(["elasticsearch:9200"])->build();
 $guzzle = new GuzzleClient();
+$symfonyEventDispatcher = new EventDispatcher();
 
 $dc = [
     'mysql' => $mysql,
     'redis' => $redis,
     'rabbitmq' => $rabbitmq,
     'elasticsearch' => $elasticsearch,
-    'guzzle' => $guzzle
+    'guzzle' => $guzzle,
+    'symfonyEventDispatcher' => $symfonyEventDispatcher
 ];
 
 /*
