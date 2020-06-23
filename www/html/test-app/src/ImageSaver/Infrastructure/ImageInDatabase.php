@@ -46,11 +46,12 @@ class ImageInDatabase implements ImageRepository
 
     public function imageSavedInMySQL(string $imageName, string $tags)
     {
+        $tag = json_encode(array($tags));
         $stmt = $this->imageDBConnector->pdo()->prepare(
             'INSERT INTO images(image, tags) VALUES (:imageName, :tags)'
         );
         $stmt->bindValue("imageName", $imageName);
-        $stmt->bindValue("tags", $tags);
+        $stmt->bindValue("tags", $tag);
         $stmt->execute();
 
         echo 'aqui guardaremos la imagen: falta implementarlo' . PHP_EOL;
