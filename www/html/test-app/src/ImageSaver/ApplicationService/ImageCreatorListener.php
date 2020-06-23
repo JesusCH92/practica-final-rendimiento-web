@@ -22,8 +22,11 @@ class ImageCreatorListener
         
         $image = "$imagePath/$imageName.$imageExtension";
 
-        $this->imageRespository->checkIfExistImage($image);
+        if (!$this->imageRespository->isImageInRedis($image)) {
+            echo 'image saved in Redis ' . PHP_EOL;
+            $this->imageRespository->imageSavedInRedis($image, 'tag-prueba', 'descripcion-prueba');
+        }
 
-        $this->imageRespository->imageSaveInDB();
+        $this->imageRespository->imageSavedInMySQL($image);
     }
 }
