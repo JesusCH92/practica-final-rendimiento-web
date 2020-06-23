@@ -3,12 +3,43 @@
 {% block stylesheets %} {{ parent() }} {% endblock %}
 
 {% block body %}
-    <div class="row container-images">
-        {% for image in imagesCollection %}
-            <figure class="col-xl-4 col-md-6 col-10 mx-auto">
-                <img src="/assets/files/{{image}}" class="rounded d-block photos" alt="...">
-            </figure>
-        {% endfor %}
+    <div class="row container-images bg-light">
+        <div class="card-group">
+            {% for image in imagesCollection %}
+            <div class="col-xl-4 col-md-6 col-10 mx-auto my-3">
+                <div class="card">
+                    <img class="card-img-top" src="/assets/files/{{image}}" alt="Card image cap">
+                    <div id="accordion-{{ loop.index }}">
+
+                        <div class="card">
+                            <button class="btn text-white metadata-image" data-toggle="collapse" data-target="#image-tag-{{ loop.index }}" aria-expanded="true" aria-controls="image-tag-{{ loop.index }}">
+                                Add a new tag
+                            </button>
+                            <div id="image-tag-{{ loop.index }}" class="collapse" aria-labelledby="headingOne" data-parent="#accordion-{{ loop.index }}">
+                                <div class="card-body">
+                                AQUÍ IRAN LOS MARAVILLOSOS TAGS.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <button class="btn text-white metadata-image" data-toggle="collapse" data-target="#image-description-{{ loop.index }}" aria-expanded="false" aria-controls="image-description-{{ loop.index }}">
+                            Add a description
+                            </button>
+                            <div id="image-description-{{ loop.index }}" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion-{{ loop.index }}">
+                                <div class="card-body">
+                                    Esta es la foto más molona del mundo mundial!!!!
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+
     </div>
 {% endblock %}
 
