@@ -59,11 +59,5 @@ class ImageInDatabase implements ImageRepository
         var_dump(   $this->imageDBConnector->redis()->get($imageName)  );
         echo 'Estas son todas las keys en Redis: ' . PHP_EOL;
         var_dump(   $this->imageDBConnector->redis()->keys('*')  );
-
-        if (count($this->imageDBConnector->redis()->keys('*')) > 12){
-            echo 'Borrar todas las keys en Redis: ' . PHP_EOL;
-            $this->imageDBConnector->redis()->delete($this->imageDBConnector->redis()->keys('*'));
-        }
-        
     }
 }
