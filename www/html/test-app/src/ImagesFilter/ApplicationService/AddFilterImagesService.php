@@ -18,7 +18,7 @@ class AddFilterImagesService
     {
         $filterImageCreate = $this->filterRepository->createFilterImage($imagePath, $imageName, $imageExtension, $filterAdded);
 
-        $imageCreateDomainEvent = new ImageCreateDomainEvent($imagePath, "$imageName-$filterAdded", "png");
+        $imageCreateDomainEvent = new ImageCreateDomainEvent($imagePath, $imageName, "png", $filterAdded);
 
         $this->eventDispatcher->dispatch($imageCreateDomainEvent, ImageCreateDomainEvent::EVENTNAME);
 
