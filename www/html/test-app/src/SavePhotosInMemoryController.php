@@ -18,10 +18,10 @@ class SavePhotosInMemoryController extends BaseController
             throw new \Exception('Error type request!!!');
         }
         var_dump($_FILES['file']);
-        echo 'merda';
+        echo 'merda' . PHP_EOL;
         // $archivo = $_FILES['photos'];
         $file = $_FILES['file'];
-
+        var_dump($request->getContent());
         var_dump($file);
         $templocation = $file["tmp_name"];
         $fileNameAndExtension = explode('.', $file["name"]);
