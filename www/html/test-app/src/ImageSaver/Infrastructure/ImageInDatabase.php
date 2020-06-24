@@ -14,28 +14,41 @@ class ImageInDatabase implements ImageRepository
         $this->imageDBConnector = $imageDBConnector;
     }
 
-    public function isImageInRedis(string $image)
+    public function isImageInRedis(string $imagePath, string $imageName, string $imageExtension, string $filterAdded)
     {
-        $isImageInRedis = $this->imageDBConnector->redis()->exists($image) === 1;
+        $imageName = $filterAdded === "" ? "$imageName.$imageExtension" : "$imageName-$filterAdded.$imageExtension";
+        $isImageInRedis = $this->imageDBConnector->redis()->exists($imageName) === 1;
         return  $isImageInRedis;
     }
 
-    public function imageSavedInRedis(string $image, string $tag, string $imageDescription)
+    public function imageSavedInRedis(string $imagePath, string $imageName, string $imageExtension, string $filterAdded, string $imageDescription)
     {
+        $isFilterAppliedToImage = $filterAdded !== "" ? true : false;
+
+        $image = $isFilterAppliedToImage ? "$imageName-$filterAdded.$imageExtension" : "$imageName.$imageExtension";
+        $imageName = $isFilterAppliedToImage ? "$imageName-$filterAdded" : $imageName;
+        $tag = $isFilterAppliedToImage ? array($filterAdded) : array();
+
         $imageMetadata = array(
-            'tag' => array($tag),
+            'image_path' => $imagePath,
+            'image_name' => $imageName,
+            'image_extension' => $imageExtension,
+            'tag' => $tag,
             'description' => $imageDescription
         );
 
         $this->imageDBConnector->redis()->set($image,json_encode($imageMetadata));
     }
 
-    public function isImageInDB(string $imageName)
+    public function isImageInDB(string $imagePath, string $imageName, string $imageExtension, string $filterAdded)
     {
+        $imageName = $filterAdded === "" ? $imageName : "$imageName-$filterAdded";
         $stmt = $this->imageDBConnector->pdo()->prepare(
-            'SELECT image, tags FROM images WHERE image = :image'
+            'SELECT image_path, image_name, image_extension FROM images WHERE image_path = :image_path AND image_name = :image_name AND image_extension = :image_extension'
         );
-        $stmt->bindValue("image", $imageName);
+        $stmt->bindValue("image_path", $imagePath);
+        $stmt->bindValue("image_name", $imageName);
+        $stmt->bindValue("image_extension", $imageExtension);
         $stmt->execute();
         $imageInDB = $stmt->fetchAll();
 
@@ -44,13 +57,20 @@ class ImageInDatabase implements ImageRepository
         return $imageInDB;
     }
 
-    public function imageSavedInMySQL(string $imageName, string $tags)
+    public function imageSavedInMySQL(string $imagePath, string $imageName, string $imageExtension, string $filterAdded)
     {
-        $tag = json_encode(array($tags));
+        $isFilterAppliedToImage = $filterAdded !== "" ? true : false;
+
+        $imageName = $isFilterAppliedToImage ? "$imageName-$filterAdded" : $imageName;
+        $tag = $isFilterAppliedToImage ? array($filterAdded) : array();
+        
+        $tag = json_encode($tag);
         $stmt = $this->imageDBConnector->pdo()->prepare(
-            'INSERT INTO images(image, tags) VALUES (:imageName, :tags)'
+            'INSERT INTO images(image_path, image_name, image_extension, tags) VALUES (:image_path, :image_name, :image_extension, :tags)'
         );
-        $stmt->bindValue("imageName", $imageName);
+        $stmt->bindValue("image_path", $imagePath);
+        $stmt->bindValue("image_name", $imageName);
+        $stmt->bindValue("image_extension", $imageExtension);
         $stmt->bindValue("tags", $tag);
         $stmt->execute();
 
