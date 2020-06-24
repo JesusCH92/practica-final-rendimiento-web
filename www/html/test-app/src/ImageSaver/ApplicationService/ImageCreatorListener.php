@@ -21,20 +21,18 @@ class ImageCreatorListener
         $imageExtension = $event->imageExtension();
         $filterAdded = $event->filterAdded();
         
-        $image = $filterAdded === "" ? "$imagePath/$imageName.$imageExtension" : "$imagePath/$imageName-$filterAdded.$imageExtension";
-
-        if (!$this->imageRespository->isImageInRedis($image)) {
+        if (!$this->imageRespository->isImageInRedis($imagePath, $imageName, $imageExtension, $filterAdded)) {
             echo 'image saved in Redis ' . PHP_EOL;
-            $this->imageRespository->imageSavedInRedis($image, $filterAdded, 'descripcion-prueba');
+            $this->imageRespository->imageSavedInRedis($imagePath, $imageName, $imageExtension, $filterAdded, 'descripcion-prueba');
         }
 
-        $isImageInDB = $this->imageRespository->isImageInDB($image);
+        $isImageInDB = $this->imageRespository->isImageInDB($imagePath, $imageName, $imageExtension, $filterAdded);
 
         if (null !== $isImageInDB) {
             echo 'image exist in MySQL ' . PHP_EOL;
             return;
         }
         echo 'image saved in MySQL ' . PHP_EOL;
-        $this->imageRespository->imageSavedInMySQL($image, $filterAdded);
+        $this->imageRespository->imageSavedInMySQL($imagePath, $imageName, $imageExtension, $filterAdded);
     }
 }
