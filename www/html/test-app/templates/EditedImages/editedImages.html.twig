@@ -3,6 +3,7 @@
 {% block stylesheets %} {{ parent() }} {% endblock %}
 
 {% block body %}
+    {{ dump(imagesInCache) }}
     <div class="row container-images bg-light">
         <div class="card-group">
             {% for image in imagesCollection %}
