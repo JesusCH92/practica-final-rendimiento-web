@@ -14,3 +14,14 @@
     background-color: #545f68;
     font-weight: bold;
 }
+
+.add-tag-btn{
+    width: 32px;    height: 32px;
+    margin: 0;      padding: 0;
+    border-radius: 50%;
+    background-image: url("https://img.icons8.com/color/32/000000/plus--v1.png");
+}
+
+.add-tag-btn:hover{
+    cursor: pointer;
+}
