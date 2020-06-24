@@ -75,7 +75,7 @@ class FilterImageCreator implements FilterRepository
         try {
             $imageClaviskaSimpleImage = $this->claviskaSimpleImage;
             $imageClaviskaSimpleImage
-                ->fromFile("bug-$imagePath/$imageName.$imageExtension")
+                ->fromFile("$imagePath/$imageName.$imageExtension")
                 ->flip('x')
                 ->flip('y')
                 ->colorize('DarkBlue')
