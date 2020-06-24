@@ -20,8 +20,14 @@
     margin: 0;      padding: 0;
     border-radius: 50%;
     background-image: url("https://img.icons8.com/color/32/000000/plus--v1.png");
+    background-position: center;
 }
 
 .add-tag-btn:hover{
     cursor: pointer;
+    border: 2px solid #2d9731;
+    background-color: #4ec052
+}
+.add-tag-btn:active{
+    width: 30px;    height: 30px;
 }
