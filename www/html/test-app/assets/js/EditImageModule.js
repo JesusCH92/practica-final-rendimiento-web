@@ -3,7 +3,6 @@ var EditImageModule = (function(){
     var $addTagBtn = $(".add-tag-btn");
     var $inputTag = "#input-tag-";
     var $addTagContainer = "#tags-container-";
-    var $deleteTagBtn = $(".delete-tag");
     var $tagContainer = $(".tags-container");
 
 
