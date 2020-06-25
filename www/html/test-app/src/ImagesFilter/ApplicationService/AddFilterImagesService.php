@@ -14,11 +14,11 @@ class AddFilterImagesService
         $this->filterRepository = $filterRepository;
         $this->eventDispatcher = $eventDispatcher;
     }
-    public function __invoke(string $imagePath, string $imageName, string $imageExtension, string $filterAdded)
+    public function __invoke(string $imagePath, string $imageName, string $imageActualName, string $imageRenameForFilterImage, string $imageExtension, string $filterAdded)
     {
-        $filterImageCreate = $this->filterRepository->createFilterImage($imagePath, $imageName, $imageExtension, $filterAdded);
+        $filterImageCreate = $this->filterRepository->createFilterImage($imagePath, $imageActualName, $imageRenameForFilterImage, $imageExtension, $filterAdded);
 
-        $imageCreateDomainEvent = new ImageCreateDomainEvent($imagePath, $imageName, "png", $filterAdded);
+        $imageCreateDomainEvent = new ImageCreateDomainEvent($imagePath, $imageName, $imageRenameForFilterImage,"png", $filterAdded);
 
         $this->eventDispatcher->dispatch($imageCreateDomainEvent, ImageCreateDomainEvent::EVENTNAME);
 
