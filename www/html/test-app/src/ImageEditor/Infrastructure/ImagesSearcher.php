@@ -19,15 +19,27 @@ class ImagesSearcher implements ImagesRepository
     {
         $imageInCache = $this->imageDBConnector->redis()->keys('*');
         echo 'image in redis' . PHP_EOL;
-        var_dump($imageInCache);
         $imageCollection = count($imageInCache) === 0 ? null : $imageInCache;
+        
+        return $imageCollection;
+    }
+
+    public function getImageCollectionWithDetailsInCache($imageNameCollection)
+    {
+        $imageCollection = [];
+
+        foreach ($imageNameCollection as $imageName) {
+            $imageDetails = json_decode($this->imageDBConnector->redis()->get($imageName), true);
+            array_push($imageCollection, $imageDetails);
+        }
+
         return $imageCollection;
     }
 
     public function getAllImagesInDB()
     {
         $stmt = $this->imageDBConnector->pdo()->prepare(
-            'SELECT id_images, image_name, image_extension, tags, description FROM images'
+            'SELECT image_path, image_name, image_rename, image_extension, tags, description FROM images'
         );
         $stmt->execute();
         $imageCollection = $stmt->fetchAll(PDO::FETCH_ASSOC);
