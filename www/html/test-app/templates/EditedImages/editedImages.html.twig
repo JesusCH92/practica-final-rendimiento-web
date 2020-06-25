@@ -19,7 +19,7 @@
                             </button>
                             <div id="image-tag-{{ loop.index }}" class="collapse" aria-labelledby="headingOne" data-parent="#accordion-{{ loop.index }}">
                                 <div class="card-body">
-                                    <div class="tags-container" id="tags-container-{{ loop.index }}">
+                                    <div class="tags-container" id="tags-container-{{ loop.index }}" name-photo="{{ image.image_rename }}">
                                         {% for tag in image.tags %}
                                             <span class="badge badge-light">{{ tag }} 
                                                 <div class="delete-tag"></div>
