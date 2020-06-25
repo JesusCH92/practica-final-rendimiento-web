@@ -14,11 +14,8 @@ class GetAllImagesService
     public function __invoke()
     {
         $imagesCollectionInCache = $this->imagesRepository->getAllImagesInCache();
-        $imagesCollection = $imagesCollectionInCache;
 
-        if (null === $imagesCollectionInCache) {
-            $imagesCollection = $this->imagesRepository->getAllImagesInDB();
-        }
+        $imagesCollection = (null === $imagesCollectionInCache) ? $imagesCollection = $this->imagesRepository->getAllImagesInDB() : $this->imagesRepository->getImageCollectionWithDetailsInCache($imagesCollectionInCache);
         
         return $imagesCollection;
     }
