@@ -34,6 +34,18 @@ var EditImageModule = (function(){
         });
     }
 
+    var deleteTagToImage = function({tag, imageName, callback=console.log}){
+        $.ajax({
+            type: 'DELETE',
+            url: '/delete-tag',
+            async: true,
+            data: {tag, imageName},
+            success: function(data){
+                callback(data);
+            }
+        });
+    }
+
     var initEvents = function(){
 
         $addTagBtn.click(function(){
@@ -59,7 +71,10 @@ var EditImageModule = (function(){
             console.log('quieres eliminar este tag?');
             var $tagToDelete = $(event.target).parent();
             var $textTagToDelete = $.trim($tagToDelete.text());
-            console.log($textTagToDelete);
+
+            var $imageName = $tagToDelete.parent().attr('name-photo');
+
+            deleteTagToImage({tag: $textTagToDelete, imageName: $imageName});
             $tagToDelete.remove();
         });
 
