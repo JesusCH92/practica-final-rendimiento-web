@@ -18,12 +18,12 @@ class EditedImagesController extends BaseController
 
         $getAllImagesService = new GetAllImagesService($imagesSearcher);
 
-        $showPhotoService = new ShowPhotoService(new PhotosInMemory());        
+        // $showPhotoService = new ShowPhotoService(new PhotosInMemory());        
         
         return Response::create($this->templateEngine->render('EditedImages/editedImages.html.twig', 
             [
-                'imagesCollection' => $showPhotoService(),
-                'imagesInCache' => $getAllImagesService()
+                // 'imagesCollection' => $showPhotoService(),
+                'imagesCollection' => $getAllImagesService()
             ]
         ));
     }
