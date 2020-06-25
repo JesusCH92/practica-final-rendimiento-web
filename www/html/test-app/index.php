@@ -53,7 +53,7 @@ $routes = [
     'post_user' => (new Route('/users/{id}', ['controller' => UserController::class, 'method' => 'create']))->setMethods([Request::METHOD_POST]),
     'load_img'  => (new Route('/imagen',     ['controller' => UploadImageController::class]))->setMethods([Request::METHOD_GET]),
     'save_img'  => (new Route('/save_photos', ['controller' => SavePhotosInMemoryController::class]))->setMethods([Request::METHOD_POST]),
-    'edit_img'  => (new Route('/edit-imagen', ['controller' => EditedImagesController::class]))->setMethods([Request::METHOD_GET]),
+    'edited_img'  => (new Route('/edited-imagen', ['controller' => EditedImagesController::class]))->setMethods([Request::METHOD_GET]),
 ];
 
 /*
