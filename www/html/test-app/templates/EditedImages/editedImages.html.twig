@@ -3,13 +3,14 @@
 {% block stylesheets %} {{ parent() }} {% endblock %}
 
 {% block body %}
-    {{ dump(imagesInCache) }}
+    {{ dump(imagesCollection[0]) }}
+    {{ dump(imagesCollection[0]['image_rename']) }}
     <div class="row container-images bg-light">
         <div class="card-group">
             {% for image in imagesCollection %}
             <div class="col-xl-4 col-md-6 col-10 mx-auto my-3">
                 <div class="card">
-                    <img class="card-img-top" src="/assets/files/{{image}}" alt="Card image cap">
+                    <img class="card-img-top" src="/assets/files/{{image['image_rename']}}.{{image['image_extension']}}" alt="Card image cap">
                     <div id="accordion-{{ loop.index }}">
 
                         <div class="card">
@@ -19,11 +20,13 @@
                             <div id="image-tag-{{ loop.index }}" class="collapse" aria-labelledby="headingOne" data-parent="#accordion-{{ loop.index }}">
                                 <div class="card-body">
                                     <div class="tags-container" id="tags-container-{{ loop.index }}">
-                                        <span class="badge badge-light">Light 
-                                            <div class="delete-tag"></div>
-                                        </span>
+                                        {% for tag in image.tags %}
+                                            <span class="badge badge-light">{{ tag }} 
+                                                <div class="delete-tag"></div>
+                                            </span>
+                                        {% endfor %}
                                     </div>
-                                    <div class="input-group tags-container-controller">
+                                    <div class="input-group tags-container-controller" name-photo="{{ image.image_rename }}">
                                         <input type="text" class="form-control" placeholder="Add a new tag..." id="input-tag-{{ loop.index }}">
                                         <div class="input-group-append add-tag-btn" id="add-tag-btn-{{ loop.index }}">
                                         </div>
