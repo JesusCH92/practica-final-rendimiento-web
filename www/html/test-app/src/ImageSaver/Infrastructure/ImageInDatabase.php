@@ -31,7 +31,7 @@ class ImageInDatabase implements ImageRepository
             'image_name' => $imageName,
             'image_rename' => $imageRename,
             'image_extension' => $imageExtension,
-            'tag' => $tag,
+            'tags' => $tag,
             'description' => $imageDescription
         );
 
