@@ -3,9 +3,10 @@
 namespace TestApp\ImageDecorator\Infrastructure;
 
 use TestApp\ImageDecorator\Domain\CreateTagToImageRepository;
+use TestApp\ImageDecorator\Domain\DeleteTagToImageRepository;
 use TestApp\Shared\Infrastructure\ImageDBConnector;
 
-class ImageInRedis implements CreateTagToImageRepository
+class ImageInRedis implements CreateTagToImageRepository, DeleteTagToImageRepository
 {
     private ImageDBConnector $imageDBConnector;
 
@@ -28,6 +29,17 @@ class ImageInRedis implements CreateTagToImageRepository
         // var_dump($imageDetails["tags"]);
         $updateImageDetails = json_encode($imageDetails);
         // var_dump($updateImageDetails);
+        $this->imageDBConnector->redis()->set($imageRename, $updateImageDetails);
+    }
+
+    public function deleteTag(string $imageRename, array $imageDetails, string $deleteTag)
+    {
+        if (($key = array_search($deleteTag, $imageDetails["tags"])) !== false) {
+            unset($imageDetails["tags"][$key]);
+        }
+        // var_dump($imageDetails);
+        $updateImageDetails = json_encode($imageDetails);
+
         $this->imageDBConnector->redis()->set($imageRename, $updateImageDetails);
     }
 }
