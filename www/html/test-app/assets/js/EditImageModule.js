@@ -2,7 +2,7 @@ var EditImageModule = (function(){
     console.log('Edit images and send in ELK');
     var $addTagBtn = $(".add-tag-btn");
     var $inputTag = "#input-tag-";
-    var $addTagContainer = "#tags-container-";
+    var $addTagContainer = "div.tags-container[name-photo='";
     var $tagContainer = $(".tags-container");
 
 
@@ -11,18 +11,28 @@ var EditImageModule = (function(){
         $tagInput.val("");
     }
 
-    var paintTag = function($idTagBtn){
-        var $tagInput = $($inputTag + $idTagBtn).val();
-        var $tagContainer = $($addTagContainer + $idTagBtn);
+    var paintTag = function({tagText, uuidImage}){
+        var $tagInput = tagText;
+        var $tagContainer = $($addTagContainer + uuidImage +"']");
 
         var $tagAdded = '<span class="badge badge-light"></span>';
         $tagContainer.append($tagAdded);
 
         $tagContainer.children().last().text($tagInput);
         $tagContainer.children().last().append('<div class="delete-tag"></div>')
-        console.log($tagInput);
     }
 
+    var addTagToImage = function({tag, imageName, callback=console.log}){
+        $.ajax({
+            type: 'POST',
+            url: '/create-tag',
+            async: true,
+            data: {tag, imageName},
+            success: function(data){
+                callback({tagText: data.tag_create, uuidImage: data.image_name});
+            }
+        });
+    }
 
     var initEvents = function(){
 
@@ -30,10 +40,14 @@ var EditImageModule = (function(){
             var $idTagBtn = $(this).attr('id');
             var $idTag = $idTagBtn.replace("add-tag-btn-", "");
 
-            if ($($inputTag + $idTag).val() === "") {
+            var $tagInput = $($inputTag + $idTag);
+            var $tagInputText = $($inputTag + $idTag).val();
+
+            if ($tagInputText === "") {
                 return;
             }
-            paintTag($idTag);
+            var $imageName = $tagInput.parent().attr('name-photo');
+            addTagToImage({tag: $tagInputText, imageName: $imageName, callback: paintTag});
 
             cleanTagInput($idTag);
         });
