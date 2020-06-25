@@ -4,9 +4,10 @@ namespace TestApp\ImageDecorator\Infrastructure;
 
 use PDO;
 use TestApp\ImageDecorator\Domain\CreateTagToImageRepository;
+use TestApp\ImageDecorator\Domain\DeleteTagToImageRepository;
 use TestApp\Shared\Infrastructure\ImageDBConnector;
 
-class ImageInMySql implements CreateTagToImageRepository
+class ImageInMySql implements CreateTagToImageRepository, DeleteTagToImageRepository
 {
     private ImageDBConnector $imageDBConnector;
 
@@ -33,15 +34,36 @@ class ImageInMySql implements CreateTagToImageRepository
 
     public function createTag(string $imageRename, array $imageDetails, string $newTag)
     {
-        // echo 'helllllooooooo Mysql!' . PHP_EOL;
         $actualTags = $imageDetails["tags"];
+
         array_push($actualTags, $newTag);
-        // var_dump($actualTags);
+
         $tags = json_encode($actualTags);
 
         $stmt = $this->imageDBConnector->pdo()->prepare(
             'UPDATE images SET tags = :tags WHERE image_rename = :image_rename'
         );
+
+        $stmt->bindValue("tags", $tags);
+        $stmt->bindValue("image_rename", $imageRename);
+        $stmt->execute();
+    }
+
+    public function deleteTag(string $imageRename, array $imageDetails, string $deleteTag)
+    {
+        $actualTags = $imageDetails["tags"];
+
+        if (($key = array_search($deleteTag, $actualTags)) !== false) {
+            unset($actualTags[$key]);
+        }
+
+        $tags = json_encode($actualTags);
+        // var_dump($tags);exit;
+
+        $stmt = $this->imageDBConnector->pdo()->prepare(
+            'UPDATE images SET tags = :tags WHERE image_rename = :image_rename'
+        );
+
         $stmt->bindValue("tags", $tags);
         $stmt->bindValue("image_rename", $imageRename);
         $stmt->execute();
