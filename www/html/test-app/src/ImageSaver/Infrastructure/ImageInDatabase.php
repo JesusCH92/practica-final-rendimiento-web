@@ -14,41 +14,36 @@ class ImageInDatabase implements ImageRepository
         $this->imageDBConnector = $imageDBConnector;
     }
 
-    public function isImageInRedis(string $imagePath, string $imageName, string $imageExtension, string $filterAdded)
-    {
-        $imageName = $filterAdded === "" ? "$imageName.$imageExtension" : "$imageName-$filterAdded.$imageExtension";
-        $isImageInRedis = $this->imageDBConnector->redis()->exists($imageName) === 1;
+    public function isImageInRedis(string $imageRename)
+    {        
+        $isImageInRedis = $this->imageDBConnector->redis()->exists($imageRename) === 1;
         return  $isImageInRedis;
     }
 
-    public function imageSavedInRedis(string $imagePath, string $imageName, string $imageExtension, string $filterAdded, string $imageDescription)
+    public function imageSavedInRedis(string $imagePath, string $imageName, string $imageRename, string $imageExtension, string $filterAdded, string $imageDescription)
     {
         $isFilterAppliedToImage = $filterAdded !== "" ? true : false;
 
-        $image = $isFilterAppliedToImage ? "$imageName-$filterAdded.$imageExtension" : "$imageName.$imageExtension";
-        $imageName = $isFilterAppliedToImage ? "$imageName-$filterAdded" : $imageName;
         $tag = $isFilterAppliedToImage ? array($filterAdded) : array();
 
         $imageMetadata = array(
             'image_path' => $imagePath,
             'image_name' => $imageName,
+            'image_rename' => $imageRename,
             'image_extension' => $imageExtension,
             'tag' => $tag,
             'description' => $imageDescription
         );
 
-        $this->imageDBConnector->redis()->set($image,json_encode($imageMetadata));
+        $this->imageDBConnector->redis()->set($imageRename,json_encode($imageMetadata));
     }
 
-    public function isImageInDB(string $imagePath, string $imageName, string $imageExtension, string $filterAdded)
+    public function isImageInDB(string $imageRename)
     {
-        $imageName = $filterAdded === "" ? $imageName : "$imageName-$filterAdded";
         $stmt = $this->imageDBConnector->pdo()->prepare(
-            'SELECT image_path, image_name, image_extension FROM images WHERE image_path = :image_path AND image_name = :image_name AND image_extension = :image_extension'
+            'SELECT image_rename FROM images WHERE image_rename = :image_rename'
         );
-        $stmt->bindValue("image_path", $imagePath);
-        $stmt->bindValue("image_name", $imageName);
-        $stmt->bindValue("image_extension", $imageExtension);
+        $stmt->bindValue("image_rename", $imageRename);
         $stmt->execute();
         $imageInDB = $stmt->fetchAll();
 
@@ -57,26 +52,26 @@ class ImageInDatabase implements ImageRepository
         return $imageInDB;
     }
 
-    public function imageSavedInMySQL(string $imagePath, string $imageName, string $imageExtension, string $filterAdded)
+    public function imageSavedInMySQL(string $imagePath, string $imageName, string $imageRename, string $imageExtension, string $filterAdded)
     {
         $isFilterAppliedToImage = $filterAdded !== "" ? true : false;
 
-        $imageName = $isFilterAppliedToImage ? "$imageName-$filterAdded" : $imageName;
         $tag = $isFilterAppliedToImage ? array($filterAdded) : array();
         
         $tag = json_encode($tag);
         $stmt = $this->imageDBConnector->pdo()->prepare(
-            'INSERT INTO images(image_path, image_name, image_extension, tags) VALUES (:image_path, :image_name, :image_extension, :tags)'
+            'INSERT INTO images(image_path, image_name, image_rename, image_extension, tags) VALUES (:image_path, :image_name, :image_rename, :image_extension, :tags)'
         );
         $stmt->bindValue("image_path", $imagePath);
         $stmt->bindValue("image_name", $imageName);
+        $stmt->bindValue("image_rename", $imageRename);
         $stmt->bindValue("image_extension", $imageExtension);
         $stmt->bindValue("tags", $tag);
         $stmt->execute();
 
         echo 'aqui guardaremos la imagen: falta implementarlo' . PHP_EOL;
         echo 'esto ha guardado redis de la image: ' . PHP_EOL;
-        var_dump(   $this->imageDBConnector->redis()->get($imageName)  );
+        var_dump(   $this->imageDBConnector->redis()->get($imageRename)  );
         echo 'Estas son todas las keys en Redis: ' . PHP_EOL;
         var_dump(   $this->imageDBConnector->redis()->keys('*')  );
     }
