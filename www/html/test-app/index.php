@@ -19,6 +19,7 @@ use TestApp\UserController;
 use TestApp\HomeController;
 use TestApp\TagCreatorController;
 use TestApp\SavePhotosInMemoryController;
+use TestApp\TagDeleterController;
 use TestApp\UploadImageController;
 
 /*
@@ -55,7 +56,8 @@ $routes = [
     'load_img'  => (new Route('/imagen',     ['controller' => UploadImageController::class]))->setMethods([Request::METHOD_GET]),
     'save_img'  => (new Route('/save_photos', ['controller' => SavePhotosInMemoryController::class]))->setMethods([Request::METHOD_POST]),
     'edited_img'  => (new Route('/edited-imagen', ['controller' => EditedImagesController::class]))->setMethods([Request::METHOD_GET]),
-    'create_tag' =>(new Route('/create-tag', ['controller' => TagCreatorController::class]))->setMethods([Request::METHOD_POST]),
+    'create_tag' => (new Route('/create-tag', ['controller' => TagCreatorController::class]))->setMethods([Request::METHOD_POST]),
+    'delete_tag' => (new Route('/delete-tag', ['controller' => TagDeleterController::class]))->setMethods([Request::METHOD_DELETE]),
 ];
 
 /*
