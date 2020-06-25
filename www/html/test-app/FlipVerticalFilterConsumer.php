@@ -11,7 +11,7 @@ use TestApp\ImagesFilter\ApplicationService\AddFilterImagesService;
 use TestApp\ImagesFilter\Infrastructure\FilterImageCreator;
 use TestApp\Shared\Infrastructure\Exceptions\ExceptionClassToHumanMessageMapper;
 use TestApp\Shared\Infrastructure\ImageDBConnector;
-
+use Ramsey\Uuid\Uuid;
 use function GuzzleHttp\json_decode;
 
 $rabbitmq = new AMQPStreamConnection('rabbitmq', 5672, 'rabbitmq', 'rabbitmq');
@@ -39,11 +39,15 @@ $callback = function ($msg) use ($addFilterImagesService){
     try{
         $imageProperties = json_decode($msg->body);
 
+        $uuid = Uuid::uuid4();
+
         $imagePath = $imageProperties->file_path;
-        $imageName = $imageProperties->file_name;
+        $imageOriginalName = $imageProperties->file_name;
+        $imageActualName = $imageProperties->file_rename;
+        $imageRenameForFilterImage = $uuid->toString();
         $imageExtension = $imageProperties->file_extension;
     
-        $filterImageCreate = $addFilterImagesService->__invoke($imagePath, $imageName, $imageExtension, 'addFlipVerticalFilter');
+        $filterImageCreate = $addFilterImagesService->__invoke($imagePath, $imageOriginalName, $imageActualName, $imageRenameForFilterImage, $imageExtension, 'addFlipVerticalFilter');
         echo $filterImageCreate . PHP_EOL;
     } catch (RuntimeException $exception) {
         $exceptionClassToHumanMessage = new ExceptionClassToHumanMessageMapper();
