@@ -13,8 +13,6 @@ class TagCreatorController extends BaseController
 {
     public function __invoke(Request $request)
     {
-        echo 'General Kenobi!!' . PHP_EOL;
-
         if (!$request->isXmlHttpRequest()) {
             throw new \Exception('Error type request!!!');
         }
@@ -22,9 +20,9 @@ class TagCreatorController extends BaseController
         $imageName = $request->get('imageName');
         $tagText = $request->get('tag');
 
-        var_dump($tagText);
-        var_dump($imageName);
-        var_dump($request->request->all());
+        // var_dump($tagText);
+        // var_dump($imageName);
+        // var_dump($request->request->all());
 
         $imageDBConnector = new ImageDBConnector();
 
@@ -40,6 +38,9 @@ class TagCreatorController extends BaseController
         $imageDetails = $tagCreatorToImage->getImageDetails($imageName);
         $tagCreatorToImage->createTag($imageName, $imageDetails, $tagText);
 
-        return new JsonResponse(['Edited Image - new tag']);    
+        return new JsonResponse([
+            'tag_create' => $tagText,
+            'image_name' => $imageName
+        ]);    
     }
 }
