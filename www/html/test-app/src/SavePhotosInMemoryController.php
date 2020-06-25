@@ -9,11 +9,13 @@ use TestApp\ImageSaver\ApplicationService\ImageCreatorListener;
 use TestApp\ImageSaver\Domain\ImageCreateDomainEvent;
 use TestApp\ImageSaver\Infrastructure\ImageInDatabase;
 use TestApp\Shared\Infrastructure\ImageDBConnector;
+use Ramsey\Uuid\Uuid;
 
 class SavePhotosInMemoryController extends BaseController
 {
     public function __invoke(Request $request)
     {
+        $uuid = Uuid::uuid4();
         $rabbitmq = $this->dc['rabbitmq'];
         $channel = $rabbitmq->channel();
 
@@ -44,17 +46,18 @@ class SavePhotosInMemoryController extends BaseController
         $fileNameAndExtension = explode('.', $file["name"]);
 
         $fileName = $fileNameAndExtension[0];
+        $fileRename = $uuid->toString();
         $fileExtension = $fileNameAndExtension[1];
 
         $routeFiles = __DIR__ . '/../assets/files';
         if (!$templocation) {
             die('no ha seleccionado ningun archivo');
         } 
-        if (!move_uploaded_file($templocation, "$routeFiles/$fileName.$fileExtension")) {
+        if (!move_uploaded_file($templocation, "$routeFiles/$fileRename.$fileExtension")) {
             echo 'error al guardar archivo';
         }
 
-        $imageCreateDomainEvent = new ImageCreateDomainEvent($routeFiles, $fileName, $fileExtension, "");
+        $imageCreateDomainEvent = new ImageCreateDomainEvent($routeFiles, $fileName, $fileRename,$fileExtension, "");
         $symfonyEventDispatcher->dispatch($imageCreateDomainEvent, ImageCreateDomainEvent::EVENTNAME);
 
         foreach (self::IMAGESFILTERCONSUMERS as $imageFilterConsumer) {
@@ -63,6 +66,7 @@ class SavePhotosInMemoryController extends BaseController
 
             $msg = new AMQPMessage(json_encode([
                 'file_name' => $fileName,
+                'file_rename' => $fileRename,
                 'file_extension' =>$fileExtension,
                 'file_path' => $routeFiles
             ]));
