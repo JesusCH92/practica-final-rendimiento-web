@@ -1,0 +1,33 @@
+<?php
+
+namespace TestApp\ImageDecorator\Infrastructure;
+
+use TestApp\ImageDecorator\Domain\CreateTagToImageRepository;
+use TestApp\Shared\Infrastructure\ImageDBConnector;
+
+class ImageInRedis implements CreateTagToImageRepository
+{
+    private ImageDBConnector $imageDBConnector;
+
+    public function __construct(ImageDBConnector $imageDBConnector)
+    {
+        $this->imageDBConnector = $imageDBConnector;
+    }
+
+    public function getImageDetails(string $imageRename)
+    {
+        $imageDetails = $this->imageDBConnector->redis()->exists($imageRename) === 1 ? $this->imageDBConnector->redis()->get($imageRename) : null;
+        // var_dump($imageDetails);
+        $imageDetails = $imageDetails === null ? null : json_decode($imageDetails, true);
+        return $imageDetails;
+    }
+
+    public function createTag(string $imageRename, array $imageDetails, string $newTag)
+    {   
+        array_push($imageDetails["tags"], $newTag);
+        // var_dump($imageDetails["tags"]);
+        $updateImageDetails = json_encode($imageDetails);
+        // var_dump($updateImageDetails);
+        $this->imageDBConnector->redis()->set($imageRename, $updateImageDetails);
+    }
+}
