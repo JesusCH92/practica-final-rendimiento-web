@@ -24,7 +24,7 @@ class ImageCreatorListener
         
         if (!$this->imageRespository->isImageInRedis($imageRename)) {
             echo 'image saved in Redis ' . PHP_EOL;
-            $this->imageRespository->imageSavedInRedis($imagePath, $imageName, $imageRename, $imageExtension, $filterAdded, 'descripcion-prueba');
+            $this->imageRespository->imageSavedInRedis($imagePath, $imageName, $imageRename, $imageExtension, $filterAdded, '');
         }
 
         $isImageInDB = $this->imageRespository->isImageInDB($imageRename);

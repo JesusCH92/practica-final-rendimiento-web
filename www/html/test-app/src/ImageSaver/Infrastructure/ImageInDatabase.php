@@ -59,14 +59,17 @@ class ImageInDatabase implements ImageRepository
         $tag = $isFilterAppliedToImage ? array($filterAdded) : array();
         
         $tag = json_encode($tag);
+        $description = '';
+
         $stmt = $this->imageDBConnector->pdo()->prepare(
-            'INSERT INTO images(image_path, image_name, image_rename, image_extension, tags) VALUES (:image_path, :image_name, :image_rename, :image_extension, :tags)'
+            'INSERT INTO images(image_path, image_name, image_rename, image_extension, tags, description) VALUES (:image_path, :image_name, :image_rename, :image_extension, :tags, :description)'
         );
         $stmt->bindValue("image_path", $imagePath);
         $stmt->bindValue("image_name", $imageName);
         $stmt->bindValue("image_rename", $imageRename);
         $stmt->bindValue("image_extension", $imageExtension);
         $stmt->bindValue("tags", $tag);
+        $stmt->bindValue("description", $description);
         $stmt->execute();
 
         echo 'aqui guardaremos la imagen: falta implementarlo' . PHP_EOL;
