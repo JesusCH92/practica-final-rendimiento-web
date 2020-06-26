@@ -3,8 +3,6 @@
 {% block stylesheets %} {{ parent() }} {% endblock %}
 
 {% block body %}
-    {{ dump(imagesCollection[0]) }}
-    {{ dump(imagesCollection[0]['image_rename']) }}
     <div class="row container-images bg-light">
         <div class="card-group">
             {% for image in imagesCollection %}
