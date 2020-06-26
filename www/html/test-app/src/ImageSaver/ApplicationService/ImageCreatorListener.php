@@ -35,5 +35,6 @@ class ImageCreatorListener
         }
         echo 'image saved in MySQL ' . PHP_EOL;
         $this->imageRespository->imageSavedInMySQL($imagePath, $imageName, $imageRename, $imageExtension, $filterAdded);
+        $this->imageRespository->documentSavedInELK($imagePath, $imageName, $imageRename, $imageExtension, $filterAdded, '');
     }
 }
