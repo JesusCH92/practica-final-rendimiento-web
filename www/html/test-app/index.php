@@ -18,6 +18,7 @@ use TestApp\EditedImagesController;
 // If you add a new route don't forget to include it's namespace
 use TestApp\UserController;
 use TestApp\HomeController;
+use TestApp\ImageDocumentSearcherController;
 use TestApp\TagCreatorController;
 use TestApp\SavePhotosInMemoryController;
 use TestApp\SearchImagesController;
@@ -62,6 +63,7 @@ $routes = [
     'delete_tag' => (new Route('/delete-tag', ['controller' => TagDeleterController::class]))->setMethods([Request::METHOD_DELETE]),
     'add_description' => (new Route('/add-description', ['controller' => DescriptionCreatorController::class]))->setMethods([Request::METHOD_POST]),
     'search_img' => (new Route('/searcher-imagen', ['controller' => SearchImagesController::class]))->setMethods([Request::METHOD_GET]),
+    'search_img_elk' => (new Route('/image-searcher-elk', ['controller' => ImageDocumentSearcherController::class]))->setMethods([Request::METHOD_POST]),
 ];
 
 /*
