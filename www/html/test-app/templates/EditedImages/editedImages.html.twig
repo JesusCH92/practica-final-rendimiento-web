@@ -42,7 +42,7 @@
                             <div id="image-description-{{ loop.index }}" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion-{{ loop.index }}">
                                 <div class="card-body">
                                     <div class="description-container" id="tags-container-{{ loop.index }}" name-photo="{{ image.image_rename }}">
-                                        <textarea class="form-control" rows="2" readonly>Esta es la foto más molona del mundo mundial!!!!</textarea>
+                                        <textarea class="form-control" rows="2" readonly>{{ image.description }}</textarea>
                                     </div>
                                     <div class="input-group description-container-controller" name-photo="{{ image.image_rename }}">
                                         <textarea type="text" class="form-control custom-control" rows="2" placeholder="Add a description..." id="input-description-{{ loop.index }}"></textarea>
