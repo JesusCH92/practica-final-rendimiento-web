@@ -35,9 +35,25 @@ class DescriptionCreatorController extends BaseController
         $imageDetails = $descriptionCreatorToImage->getImageDetails($imageName);
         $descriptionCreatorToImage->createDescription($imageName, $imageDetails, $descriptionText);
 
+        $params = [
+            'index' => ImageDBConnector::INDEXNAME,
+            'id' => $imageName,
+            'body' => [
+                'script' => [
+                    'source' =>'ctx._source.description=params.description',
+                    'params' => [
+                        'description' => $descriptionText
+                    ]
+                ]
+            ]
+        ];
+
+        $elk = $this->dc['elasticsearch']->update($params);
+
         return new JsonResponse([
             'description' => $descriptionText,
-            'image_name' => $imageName
+            'image_name' => $imageName,
+            'elk' => $elk
         ]);    
     }
 }
