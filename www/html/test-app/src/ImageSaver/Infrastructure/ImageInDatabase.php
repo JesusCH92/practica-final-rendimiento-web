@@ -78,4 +78,25 @@ class ImageInDatabase implements ImageRepository
         echo 'Estas son todas las keys en Redis: ' . PHP_EOL;
         var_dump(   $this->imageDBConnector->redis()->keys('*')  );
     }
+
+    public function documentSavedInELK(string $imagePath, string $imageName, string $imageRename, string $imageExtension, string $filterAdded, string $imageDescription)
+    {
+        $tags = $filterAdded === '' ? [] : [ $filterAdded ];
+
+        $imageDocument = [
+            'index' => ImageDBConnector::INDEXNAME,
+            'id' => $imageRename,
+            'body' => [
+                'image_path' => $imagePath,
+                'image_name' => $imageName,
+                'image_rename' => $imageRename,
+                'image_extension' => $imageExtension,
+                'tags' => $tags,
+                'description' => $imageDescription
+            ]
+        ];
+
+        $this->imageDBConnector->elasticsearch()->index($imageDocument);
+    }
+
 }
