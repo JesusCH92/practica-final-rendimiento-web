@@ -6,14 +6,14 @@ var EditImageModule = (function(){
     var $tagContainer = $(".tags-container");
     var $addDescriptionBtn = $(".add-description-btn");
     var $inputDescription = "#input-description-";
+    var $addDescriptionContainer = "div.description-container[name-photo='";
 
 
-    var cleanTagInput = function($idTag){
-        var $tagInput = $($inputTag + $idTag);
-        $tagInput.val("");
+    var cleanElement = function({element}) {
+        element.val("");
     }
 
-    var paintTag = function({tagText, uuidImage}){
+    var paintTag = function({tagText, uuidImage}) {
         var $tagInput = tagText;
         var $tagContainer = $($addTagContainer + uuidImage +"']");
 
@@ -24,7 +24,16 @@ var EditImageModule = (function(){
         $tagContainer.children().last().append('<div class="delete-tag"></div>')
     }
 
-    var addTagToImage = function({tag, imageName, callback=console.log}){
+    // var paintdeleteElement = function({element}){
+    //     element.remove();
+    // }
+
+    var paintDescription = function({descriptionText, uuidImage}){
+        var $descriptionContainer = $($addDescriptionContainer + uuidImage + "']");
+        $descriptionContainer.children().text(descriptionText);
+    }
+
+    var addTagToImage = function({tag, imageName, callback=console.log}) {
         $.ajax({
             type: 'POST',
             url: '/create-tag',
@@ -36,7 +45,7 @@ var EditImageModule = (function(){
         });
     }
 
-    var deleteTagToImage = function({tag, imageName, callback=console.log}){
+    var deleteTagToImage = function({tag, imageName, callback=console.log}) {
         $.ajax({
             type: 'DELETE',
             url: '/delete-tag',
@@ -44,6 +53,18 @@ var EditImageModule = (function(){
             data: {tag, imageName},
             success: function(data){
                 callback(data);
+            }
+        });
+    }
+
+    var addDescriptionToImage = function ({description, imageName, callback = console.log}) {
+        $.ajax({
+            type: 'POST',
+            url: '/add-description',
+            async: true,
+            data: {description, imageName},
+            success: function(data){
+                callback({descriptionText:data.description, uuidImage: data.image_name});
             }
         });
     }
@@ -63,7 +84,7 @@ var EditImageModule = (function(){
             var $imageName = $tagInput.parent().attr('name-photo');
             addTagToImage({tag: $tagInputText, imageName: $imageName, callback: paintTag});
 
-            cleanTagInput($idTag);
+            cleanElement({element: $($inputTag + $idTag)});
         });
 
         $tagContainer.click(function(){
@@ -93,7 +114,9 @@ var EditImageModule = (function(){
             var $imageName = $descriptionInput.parent().attr('name-photo');
             console.log($descriptionInputText);
             console.log($imageName);
+            addDescriptionToImage({description: $descriptionInputText, imageName: $imageName, callback:paintDescription});
 
+            cleanElement({element: $($inputDescription + $idDescription)});
         });
 
     }
