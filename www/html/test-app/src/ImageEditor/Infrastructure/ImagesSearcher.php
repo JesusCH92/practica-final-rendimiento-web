@@ -18,7 +18,6 @@ class ImagesSearcher implements ImagesRepository
     public function getAllImagesInCache()
     {
         $imageInCache = $this->imageDBConnector->redis()->keys('*');
-        echo 'image in redis' . PHP_EOL;
         $imageCollection = count($imageInCache) === 0 ? null : $imageInCache;
         
         return $imageCollection;
