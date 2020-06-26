@@ -1,5 +1,4 @@
 var EditImageModule = (function(){
-    console.log('Edit images and send in ELK');
     var $addTagBtn = $(".add-tag-btn");
     var $inputTag = "#input-tag-";
     var $addTagContainer = "div.tags-container[name-photo='";
