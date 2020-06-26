@@ -2,11 +2,12 @@
 
 namespace TestApp\ImageDecorator\Infrastructure;
 
+use TestApp\ImageDecorator\Domain\CreateDescriptionToImageRepository;
 use TestApp\ImageDecorator\Domain\CreateTagToImageRepository;
 use TestApp\ImageDecorator\Domain\DeleteTagToImageRepository;
 use TestApp\Shared\Infrastructure\ImageDBConnector;
 
-class ImageInRedis implements CreateTagToImageRepository, DeleteTagToImageRepository
+class ImageInRedis implements CreateTagToImageRepository, DeleteTagToImageRepository, CreateDescriptionToImageRepository
 {
     private ImageDBConnector $imageDBConnector;
 
@@ -26,9 +27,9 @@ class ImageInRedis implements CreateTagToImageRepository, DeleteTagToImageReposi
     public function createTag(string $imageRename, array $imageDetails, string $newTag)
     {   
         array_push($imageDetails["tags"], $newTag);
-        // var_dump($imageDetails["tags"]);
+
         $updateImageDetails = json_encode($imageDetails);
-        // var_dump($updateImageDetails);
+
         $this->imageDBConnector->redis()->set($imageRename, $updateImageDetails);
     }
 
@@ -38,6 +39,15 @@ class ImageInRedis implements CreateTagToImageRepository, DeleteTagToImageReposi
             unset($imageDetails["tags"][$key]);
         }
         // var_dump($imageDetails);
+        $updateImageDetails = json_encode($imageDetails);
+
+        $this->imageDBConnector->redis()->set($imageRename, $updateImageDetails);
+    }
+
+    public function createDescription(string $imageRename, array $imageDetails, string $newDescription)
+    {
+        $imageDetails['description'] = $newDescription;
+
         $updateImageDetails = json_encode($imageDetails);
 
         $this->imageDBConnector->redis()->set($imageRename, $updateImageDetails);
