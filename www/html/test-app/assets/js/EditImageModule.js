@@ -4,6 +4,8 @@ var EditImageModule = (function(){
     var $inputTag = "#input-tag-";
     var $addTagContainer = "div.tags-container[name-photo='";
     var $tagContainer = $(".tags-container");
+    var $addDescriptionBtn = $(".add-description-btn");
+    var $inputDescription = "#input-description-";
 
 
     var cleanTagInput = function($idTag){
@@ -76,6 +78,22 @@ var EditImageModule = (function(){
 
             deleteTagToImage({tag: $textTagToDelete, imageName: $imageName});
             $tagToDelete.remove();
+        });
+
+        $addDescriptionBtn.click(function (){
+            var $idDescriptionBtn = $(this).attr('id');
+            var $idDescription = $idDescriptionBtn.replace("add-description-btn-", "");
+
+            var $descriptionInput = $($inputDescription + $idDescription);
+            var $descriptionInputText = $($inputDescription + $idDescription).val();
+
+            if ($descriptionInputText === "") {
+                return;
+            }
+            var $imageName = $descriptionInput.parent().attr('name-photo');
+            console.log($descriptionInputText);
+            console.log($imageName);
+
         });
 
     }
