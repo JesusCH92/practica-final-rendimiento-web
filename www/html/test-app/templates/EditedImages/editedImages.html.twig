@@ -41,7 +41,15 @@
                             </button>
                             <div id="image-description-{{ loop.index }}" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion-{{ loop.index }}">
                                 <div class="card-body">
-                                    Esta es la foto más molona del mundo mundial!!!!
+                                    <div class="description-container" id="tags-container-{{ loop.index }}" name-photo="{{ image.image_rename }}">
+                                        <textarea class="form-control" rows="2" readonly>Esta es la foto más molona del mundo mundial!!!!</textarea>
+                                    </div>
+                                    <div class="input-group description-container-controller" name-photo="{{ image.image_rename }}">
+                                        <textarea type="text" class="form-control custom-control" rows="2" placeholder="Add a description..." id="input-description-{{ loop.index }}"></textarea>
+                                        <div class="input-group-addon add-description-btn" id="add-description-btn-{{ loop.index }}">
+                                        </div>
+                                    </div>
+                                    
                                 </div>
                             </div>
                         </div>
