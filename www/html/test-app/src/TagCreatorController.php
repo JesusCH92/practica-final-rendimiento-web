@@ -20,10 +20,6 @@ class TagCreatorController extends BaseController
         $imageName = $request->get('imageName');
         $tagText = $request->get('tag');
 
-        // var_dump($tagText);
-        // var_dump($imageName);
-        // var_dump($request->request->all());
-
         $imageDBConnector = new ImageDBConnector();
 
         $imageInRedis = new ImageInRedis($imageDBConnector);
@@ -35,12 +31,30 @@ class TagCreatorController extends BaseController
             echo 'ERROR_IMAGE_NOT_FOUND' . PHP_EOL;
             return;
         }
+
         $imageDetails = $tagCreatorToImage->getImageDetails($imageName);
         $tagCreatorToImage->createTag($imageName, $imageDetails, $tagText);
 
+        array_push($imageDetails["tags"], $tagText);
+        $params = [
+            'index' => ImageDBConnector::INDEXNAME,
+            'id' => $imageName,
+            'body' => [
+                'script' => [
+                    'source' =>'ctx._source.tags=params.tags',
+                    'params' => [
+                        'tags' => $imageDetails["tags"]
+                    ]
+                ]
+            ]
+        ];
+
+        $elk = $this->dc['elasticsearch']->update($params);
+
         return new JsonResponse([
             'tag_create' => $tagText,
-            'image_name' => $imageName
+            'image_name' => $imageName,
+            'elk' => $elk
         ]);    
     }
 }
