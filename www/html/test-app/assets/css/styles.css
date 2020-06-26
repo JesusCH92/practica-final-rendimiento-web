@@ -15,20 +15,22 @@
     font-weight: bold;
 }
 
-.add-tag-btn{
+.add-tag-btn, .add-description-btn{
     width: 32px;    height: 32px;
-    margin: 0;      padding: 0;
+    padding: 0;
     border-radius: 50%;
     background-image: url("https://img.icons8.com/color/32/000000/plus--v1.png");
     background-position: center;
+    margin-top: auto;
+    margin-bottom: auto;
 }
 
-.add-tag-btn:hover{
+.add-tag-btn:hover, .add-description-btn:hover{
     cursor: pointer;
     border: 2px solid #2d9731;
     background-color: #4ec052
 }
-.add-tag-btn:active{
+.add-tag-btn:active, .add-description-btn:active{
     width: 30px;    height: 30px;
 }
 
@@ -42,4 +44,8 @@
 
 .delete-tag:hover{
     cursor: pointer;
+}
+
+.tags-container-controller, .description-container-controller{
+    margin-top: 2%;
 }
