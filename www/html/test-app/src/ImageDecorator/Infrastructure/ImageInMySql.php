@@ -3,11 +3,12 @@
 namespace TestApp\ImageDecorator\Infrastructure;
 
 use PDO;
+use TestApp\ImageDecorator\Domain\CreateDescriptionToImageRepository;
 use TestApp\ImageDecorator\Domain\CreateTagToImageRepository;
 use TestApp\ImageDecorator\Domain\DeleteTagToImageRepository;
 use TestApp\Shared\Infrastructure\ImageDBConnector;
 
-class ImageInMySql implements CreateTagToImageRepository, DeleteTagToImageRepository
+class ImageInMySql implements CreateTagToImageRepository, DeleteTagToImageRepository, CreateDescriptionToImageRepository
 {
     private ImageDBConnector $imageDBConnector;
 
@@ -58,13 +59,23 @@ class ImageInMySql implements CreateTagToImageRepository, DeleteTagToImageReposi
         }
 
         $tags = json_encode($actualTags);
-        // var_dump($tags);exit;
 
         $stmt = $this->imageDBConnector->pdo()->prepare(
             'UPDATE images SET tags = :tags WHERE image_rename = :image_rename'
         );
 
         $stmt->bindValue("tags", $tags);
+        $stmt->bindValue("image_rename", $imageRename);
+        $stmt->execute();
+    }
+
+    public function createDescription(string $imageRename, array $imageDetails, string $newDescription)
+    {
+        $stmt = $this->imageDBConnector->pdo()->prepare(
+            'UPDATE images SET description = :description WHERE image_rename = :image_rename'
+        );
+
+        $stmt->bindValue("description", $newDescription);
         $stmt->bindValue("image_rename", $imageRename);
         $stmt->execute();
     }
