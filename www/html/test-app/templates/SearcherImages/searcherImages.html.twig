@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %} {{ parent() }} {% endblock %}
+
+{% block body %}
+    <h1>searcher ELK</h1>
+{% endblock %}
+
+{% block head_js %}
+    {{ parent() }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="/assets/js/ModuleLoadImage.js"></script>
+
+{% endblock %}
