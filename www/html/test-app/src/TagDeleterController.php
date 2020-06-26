@@ -22,10 +22,6 @@ class TagDeleterController extends BaseController
         $imageName = $request->request->get('imageName');
         $tagText = $request->get('tag');
 
-        var_dump($tagText);
-        var_dump($imageName);
-        var_dump($request->request->all());
-
         $imageDBConnector = new ImageDBConnector();
 
         $imageInRedis = new ImageInRedis($imageDBConnector);
@@ -41,13 +37,27 @@ class TagDeleterController extends BaseController
         $imageDetails = $tagDeleterToImage->getImageDetails($imageName);
         $tagDeleterToImage->deleteTag($imageName, $imageDetails, $tagText);
 
-        // $imageDetails = $imageInRedis->getImageDetails($imageName);
-        // var_dump($imageDetails);
+        if (($key = array_search($tagText, $imageDetails["tags"])) !== false) {
+            unset($imageDetails["tags"][$key]);
+        }
 
-        // $imageInRedis->deleteTag($imageName, $imageDetails, $tagText);
+        $params = [
+            'index' => ImageDBConnector::INDEXNAME,
+            'id' => $imageName,
+            'body' => [
+                'script' => [
+                    'source' =>'ctx._source.tags=params.tags',
+                    'params' => [
+                        'tags' => array_values($imageDetails["tags"])
+                    ]
+                ]
+            ]
+        ];
+
+        $elk = $this->dc['elasticsearch']->update($params);
 
         return new JsonResponse([
-            'Kenobi' => 'Hello There'
+            'elk' => $elk
         ]);
     }
 }
