@@ -8,4 +8,5 @@ interface ImageRepository
     public function imageSavedInRedis(string $imagePath, string $imageName, string $imageRename, string $imageExtension, string $filterAdded, string $imageDescription);
     public function isImageInDB(string $imageRename);
     public function imageSavedInMySQL(string $imagePath, string $imageName, string $imageRename, string $imageExtension, string $filterAdded);
+    public function documentSavedInELK(string $imagePath, string $imageName, string $imageRename, string $imageExtension, string $filterAdded, string $imageDescription);
 }
