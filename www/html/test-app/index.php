@@ -13,6 +13,7 @@ use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouteCollection;
 use Symfony\Component\HttpFoundation\Request;
+use TestApp\DescriptionCreatorController;
 use TestApp\EditedImagesController;
 // If you add a new route don't forget to include it's namespace
 use TestApp\UserController;
@@ -58,6 +59,7 @@ $routes = [
     'edited_img'  => (new Route('/edited-imagen', ['controller' => EditedImagesController::class]))->setMethods([Request::METHOD_GET]),
     'create_tag' => (new Route('/create-tag', ['controller' => TagCreatorController::class]))->setMethods([Request::METHOD_POST]),
     'delete_tag' => (new Route('/delete-tag', ['controller' => TagDeleterController::class]))->setMethods([Request::METHOD_DELETE]),
+    'add_description' => (new Route('/add-description', ['controller' => DescriptionCreatorController::class]))->setMethods([Request::METHOD_POST]),
 ];
 
 /*
