@@ -108,6 +108,20 @@ DEFAULT CHARACTER SET = utf8;
     ```
     ![DarkBlueFilter](https://i.imgur.com/2kghPvi.png)
 
+## Manejo de la App
+
+1. Una vez se tenga la configuración del entorno correctamente, accedemos al endpoint **`http://localhost:8080/`** y accedemos a la app.
+![HomePage](https://i.imgur.com/c3VGt0K.png)
+
+2. **`Upload Images`**: en esta funcionalidad podremos cargar las imagenes con extensiones **`.png`** o **`.jpg`**. Cada vez que se clique el boton **`Send photos`** se enviarán concurrentemente un número máximo de 10 imagenes, de tal manera que si hay más de 10 imagenes se tendrá que clicar otra vez el boton para subir las imagenes que quedan (de forma concurrente), una vez todas hayan sido enviadas, la **`dropzone`** quedará vacía para enviar otras imagenes (aunque si lo desea también se puede seguir cargando imagenes aunque no este vacía).
+![UploadImages](https://i.imgur.com/jIvTr3g.png)
+
+3. **`Edit Images`**: esta funcionalidad muestra todas las fotos subidas (con sus respectivos filtros añadidos) a las cuales se le podrá añadir/eliminar tags y una descripción.
+![EditImages](https://i.imgur.com/TgcLt2H.png)
+
+4. **`Searcher Images in ElasticSearch`**: esta funcionalidad encontrará resultados según el input de entrada de forma difusa en el nombre de los tags y en la descripción, además de encontrar search-as-you-type, en la imagen podemos ver el resultado de buscar la palabra **`word`**
+![SearcherImages](https://i.imgur.com/Fc27hz2.png)
+
 ## Instalación
 
 - [Instalar Docker](https://docs.docker.com/install/)
