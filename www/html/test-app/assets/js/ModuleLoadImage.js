@@ -16,30 +16,30 @@ var LoadImagesModule = (function(){
                     var _this = this;
                     _this.removeAllFiles();
                 }
-                sendPhotoAndSaved();
+                // sendPhotoAndSaved();
             });
         },
     };
 
-    var sendPhotoAndSaved = function(callback=console.log){
-        $.ajax({
-            type: 'POST',
-            url: '/save_photos',
-            async: true,
-            dataType: "json",
-            success: function(data){
-                callback(data);
-            }
-        });
-    };
+    // var sendPhotoAndSaved = function(callback=console.log){
+    //     $.ajax({
+    //         type: 'POST',
+    //         url: '/save_photos',
+    //         async: true,
+    //         dataType: "json",
+    //         success: function(data){
+    //             callback(data);
+    //         }
+    //     });
+    // };
 
-    var initEvents = function(){
-        // $editImagenBtn.click(function(){
-        //     console.log('hello there!');
-        //     getPhotos();
-        // });
-    }
+    // var initEvents = function(){
+    //     // $editImagenBtn.click(function(){
+    //     //     console.log('hello there!');
+    //     //     getPhotos();
+    //     // });
+    // }
 
-    initEvents();
+    // initEvents();
 
 })()
