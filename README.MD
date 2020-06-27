@@ -23,6 +23,7 @@ docker-compose up -d
     composer install
     ```
 3. Acceder a la BD desde workbench (o interfaz grafica de su preferencia). El username es **`user`** y el password es **`password`**
+![ConfigMySQLWorkbench](https://i.imgur.com/xWKnPP1.png)
 
 4. Ejecutar el siguiente script en la base de datos:
 ```SQL
@@ -53,7 +54,7 @@ DEFAULT CHARACTER SET = utf8;
     ```bash
     php SepiaFilterConsumer.php
     ```
-    ![SepiaFilter](#)
+    ![SepiaFilter](https://i.imgur.com/IRaBgLL.png)
     * Abrir la segunda terminal y ejecutar:
     ```bash
     docker-compose exec php bash
@@ -66,7 +67,7 @@ DEFAULT CHARACTER SET = utf8;
     ```bash
     php BlackAndWhiteFilterConsumer.php
     ```
-    ![BlackNWhiteFilter](#)
+    ![BlackNWhiteFilter](https://i.imgur.com/XAhEc6L.png)
     * Abrir la tercera terminal y ejecutar:
     ```bash
     docker-compose exec php bash
@@ -79,7 +80,7 @@ DEFAULT CHARACTER SET = utf8;
     ```bash
     php FlipVerticalFilterConsumer.php
     ```
-    ![FlipVerticalFilter](#)
+    ![FlipVerticalFilter](https://i.imgur.com/UqedmaY.png)
     * Abrir la cuarta terminal y ejecutar:
     ```bash
     docker-compose exec php bash
@@ -92,7 +93,7 @@ DEFAULT CHARACTER SET = utf8;
     ```bash
     php FlipHorizontalFilterConsumer.php
     ```
-    ![FlipHorizontalFilter](#)
+    ![FlipHorizontalFilter](https://i.imgur.com/TT1h7yi.png)
     * Abrir la quinta terminal y ejecutar:
     ```bash
     docker-compose exec php bash
@@ -105,7 +106,7 @@ DEFAULT CHARACTER SET = utf8;
     ```bash
     php DarkBlueFilterConsumer.php
     ```
-    ![DarkBlueFilter](#)
+    ![DarkBlueFilter](https://i.imgur.com/2kghPvi.png)
 
 ## Instalación
 
