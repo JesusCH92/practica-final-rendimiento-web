@@ -42,8 +42,7 @@ class ImagesSearcher implements ImagesRepository
         );
         $stmt->execute();
         $imageCollection = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        // var_dump($imageCollection[0]["image_name"]);
-        echo 'Sugar Honey Ice Tea in SQL' . PHP_EOL;
+        
         return $imageCollection;
     }
 }
