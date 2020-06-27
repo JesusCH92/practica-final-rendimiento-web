@@ -71,12 +71,6 @@ class ImageInDatabase implements ImageRepository
         $stmt->bindValue("tags", $tag);
         $stmt->bindValue("description", $description);
         $stmt->execute();
-
-        echo 'aqui guardaremos la imagen: falta implementarlo' . PHP_EOL;
-        echo 'esto ha guardado redis de la image: ' . PHP_EOL;
-        var_dump(   $this->imageDBConnector->redis()->get($imageRename)  );
-        echo 'Estas son todas las keys en Redis: ' . PHP_EOL;
-        var_dump(   $this->imageDBConnector->redis()->keys('*')  );
     }
 
     public function documentSavedInELK(string $imagePath, string $imageName, string $imageRename, string $imageExtension, string $filterAdded, string $imageDescription)
