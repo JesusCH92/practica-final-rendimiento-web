@@ -23,7 +23,6 @@ class ImageCreatorListener
         $filterAdded = $event->filterAdded();
         
         if (!$this->imageRespository->isImageInRedis($imageRename)) {
-            echo 'image saved in Redis ' . PHP_EOL;
             $this->imageRespository->imageSavedInRedis($imagePath, $imageName, $imageRename, $imageExtension, $filterAdded, '');
         }
 
@@ -33,7 +32,7 @@ class ImageCreatorListener
             echo 'image exist in MySQL ' . PHP_EOL;
             return;
         }
-        echo 'image saved in MySQL ' . PHP_EOL;
+
         $this->imageRespository->imageSavedInMySQL($imagePath, $imageName, $imageRename, $imageExtension, $filterAdded);
         $this->imageRespository->documentSavedInELK($imagePath, $imageName, $imageRename, $imageExtension, $filterAdded, '');
     }
