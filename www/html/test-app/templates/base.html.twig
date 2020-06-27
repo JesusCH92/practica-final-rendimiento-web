@@ -15,17 +15,17 @@
     </head>
     <body class="bg-white">
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark justify-content-between">
-            <a class="navbar-brand" href="#">Rendimiento Web</a>
+            <a class="navbar-brand" href="/">Rendimiento Web</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNavDropdown">
                 <ul class="navbar-nav">
                     <li class="nav-item active">
-                        <a class="nav-link" href="/imagen" id="load-imagen-btn">Load Imagen</a>
+                        <a class="nav-link" href="/imagen" id="load-imagen-btn">Upload Images</a>
                     </li>
                     <li class="nav-item active">
-                        <a class="nav-link" href="/edited-imagen" id="edit-imagen-btn">Edit Imagen</a>
+                        <a class="nav-link" href="/edited-imagen" id="edit-imagen-btn">Edit Images</a>
                     </li>
                     <li class="nav-item active">
                         <a class="nav-link" href="/searcher-imagen" id="searcher-imagen-btn">Searcher Images in ELK</a>
@@ -36,7 +36,11 @@
 
         <div class="container main-container">
         {% block body %}
-        
+            <div class="jumbotron">
+            <h1 class="display-4">Final web performance practice</h1>
+            <hr class="my-4">
+            <p>You can upload images, edit them and search them in elasticsearch.</p>
+            </div>
         {% endblock %}
         </div>
         {% block javascripts %}
