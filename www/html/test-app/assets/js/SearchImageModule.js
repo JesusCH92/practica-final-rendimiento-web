@@ -1,7 +1,7 @@
 var SearchImageModule = (function(){
-    console.log('Edit images and send in ELK !!!');
     var $imageSearcherBtn = $("#searcher-image-elk-btn");
     var $imageSearchInput = $("#search-image-elk-input");
+    var $imageContainer = $(".documents-elk-container");
 
     var imageSearcher = function ({imageSearch, callback = console.log}) {
         $.ajax({
@@ -10,32 +10,61 @@ var SearchImageModule = (function(){
             async: true,
             data: {imageSearch},
             success: function(data){
-                callback(data);
+                callback({imageCollection: data.image_collection});
             }
         });
+    }
+
+    var paintResultImage = function({imageCollection}){
+        var $numberCards = imageCollection.length;
+        for(var i=0;i<$numberCards;i++){
+            var $tags = paintTags(imageCollection[i]["tags"]);
+            var $imageCard = 
+            `
+            <div class="col-xl-4 col-md-6 col-10 mx-auto my-3">
+                <div class="card">
+                    <img class="card-img-top" src="/assets/files/${imageCollection[i]["image_rename"]}.${imageCollection[i]["image_extension"]}" alt="Card image cap">
+                    <div class="card-body">
+                        <div class="tags-container-elk">
+                            ${$tags}
+                        </div>
+                        <div class="description-container-elk">
+                            <textarea class="form-control" rows="2" readonly>${imageCollection[i]["description"]}</textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            `;
+            $imageContainer.append($imageCard);
+        }
+        if ($numberCards === 0) {
+            $imageContainer.text('Not found result');
+        }
+    }
+
+    var paintTags = function($tags){
+        var $tagNumber = $tags.length;
+        var $tagsBadge = "";
+        for (var i=0; i<$tagNumber; i++){
+            $tagsBadge += `
+                <span class="badge badge-light">
+                    ${$tags[i]} 
+                </span>
+            `;
+        }
+        return $tagsBadge;
     }
 
 
     var initEvents = function(){
         $imageSearcherBtn.click(function(){
-            console.log("don't push me!!!!!");
-            console.log($imageSearchInput.val());
-            var $fomatprova = `
-            {
-                "query": {
-                    "multi_match": {
-                        "query": "88aa02d9",
-                        "type": "bool_prefix",
-                        "fields": [
-                            "image_rename",
-                            "image_rename._2gram",
-                            "image_rename._3gram"
-                        ]
-                    }
-                }
-            }`;
-            console.log($fomatprova);
-            imageSearcher({imageSearch : $fomatprova});
+            if ($imageSearchInput.val() === "") {
+                return;
+            }
+            $imageContainer.empty();
+            
+            imageSearcher({imageSearch : $imageSearchInput.val(), callback: paintResultImage});
+            $imageSearchInput.val("");
         })
     }
 
