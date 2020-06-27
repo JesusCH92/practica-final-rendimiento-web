@@ -23,7 +23,7 @@ var SearchImageModule = (function(){
             `
             <div class="col-xl-4 col-md-6 col-10 mx-auto my-3">
                 <div class="card">
-                    <img class="card-img-top" src="/assets/files/${imageCollection[i]["image_rename"]}.${imageCollection[i]["image_extension"]}" alt="Card image cap">
+                    <img class="card-img-top image-load" src="/assets/files/${imageCollection[i]["image_rename"]}.${imageCollection[i]["image_extension"]}" alt="Card image cap">
                     <div class="card-body">
                         <div class="tags-container-elk">
                             ${$tags}

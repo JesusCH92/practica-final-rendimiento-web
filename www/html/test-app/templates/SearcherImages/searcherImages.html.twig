@@ -3,11 +3,17 @@
 {% block stylesheets %} {{ parent() }} {% endblock %}
 
 {% block body %}
-    <div class="container input-group mb-3">
-        <input type="text" class="form-control" placeholder="search your images" aria-label="Recipient's username" aria-describedby="basic-addon2" id="search-image-elk-input">
-        <div class="input-group-append">
-            <button class="btn btn-outline-secondary" type="button" id="searcher-image-elk-btn">search</button>
-        </div>
+    <div class="container justify-content-center searcher-container">
+        <h4>Search images in ELK</h4>
+        <form>
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="search your images" aria-label="Recipient's username" aria-describedby="basic-addon2" id="search-image-elk-input">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="button" id="searcher-image-elk-btn">search</button>
+                </div>
+            </div>
+        </form>
+
     </div>
     <div class="container row documents-elk-container">
 
