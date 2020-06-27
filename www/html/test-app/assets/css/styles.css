@@ -49,3 +49,7 @@
 .tags-container-controller, .description-container-controller, .tags-container-elk, .description-container-elk{
     margin-top: 2%;
 }
+
+.image-load-container, .image-load{
+    height: 300px;
+}
