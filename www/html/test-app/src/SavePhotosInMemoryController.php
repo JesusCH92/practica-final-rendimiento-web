@@ -37,12 +37,9 @@ class SavePhotosInMemoryController extends BaseController
         if (!$request->isXmlHttpRequest()) {
             throw new \Exception('Error type request!!!');
         }
-        var_dump($_FILES['file']);
-        echo 'merda' . PHP_EOL;
-        // $archivo = $_FILES['photos'];
+
         $file = $_FILES['file'];
 
-        var_dump($file);
         $templocation = $file["tmp_name"];
         $fileNameAndExtension = explode('.', $file["name"]);
 
@@ -62,7 +59,6 @@ class SavePhotosInMemoryController extends BaseController
         $symfonyEventDispatcher->dispatch($imageCreateDomainEvent, ImageCreateDomainEvent::EVENTNAME);
 
         foreach (self::IMAGESFILTERCONSUMERS as $imageFilterConsumer) {
-            var_dump($imageFilterConsumer);
             $channel->queue_declare('imageFiler', false, false, false, false);
 
             $msg = new AMQPMessage(json_encode([
