@@ -40,6 +40,9 @@ CREATE TABLE `db`.`images` (
   PRIMARY KEY (`id_images`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
+
+CREATE UNIQUE INDEX image_rename
+ON images (image_rename);
 ```
 5. Levantar los consumidores individualmente abriendo 5 terminales desde la carpeta principal del proyecto y ejecutar para cada uno de ellos lo siguiente:
     * Abrir la primera terminal y ejecutar:
