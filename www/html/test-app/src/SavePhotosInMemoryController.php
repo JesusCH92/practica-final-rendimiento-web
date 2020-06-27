@@ -10,14 +10,16 @@ use TestApp\ImageSaver\Domain\ImageCreateDomainEvent;
 use TestApp\ImageSaver\Infrastructure\ImageInDatabase;
 use TestApp\Shared\Infrastructure\ImageDBConnector;
 use Ramsey\Uuid\Uuid;
+use TestApp\Shared\Infrastructure\RabbitMqConnector;
 
 class SavePhotosInMemoryController extends BaseController
 {
     public function __invoke(Request $request)
     {
         $uuid = Uuid::uuid4();
-        $rabbitmq = $this->dc['rabbitmq'];
-        $channel = $rabbitmq->channel();
+
+        $rabbitmq = new RabbitMqConnector();
+        $channel = $rabbitmq->rabbitmq()->channel();
 
         $imageDBConnector = new ImageDBConnector();
         $imageInDatabase = new ImageInDatabase($imageDBConnector);
