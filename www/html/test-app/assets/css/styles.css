@@ -46,6 +46,6 @@
     cursor: pointer;
 }
 
-.tags-container-controller, .description-container-controller{
+.tags-container-controller, .description-container-controller, .tags-container-elk, .description-container-elk{
     margin-top: 2%;
 }
