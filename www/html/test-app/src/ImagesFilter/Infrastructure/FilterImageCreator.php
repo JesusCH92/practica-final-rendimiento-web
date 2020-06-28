@@ -19,6 +19,7 @@ class FilterImageCreator implements FilterRepository
             $imageClaviskaSimpleImage = $this->claviskaSimpleImage;
             $imageClaviskaSimpleImage
                 ->fromFile("$imagePath/$imageName.$imageExtension")
+                ->resize(300, 300)
                 ->sepia()
                 ->toFile("$imagePath/$imageRename.png", 'image/png');
         } catch (\Exception $err) {
@@ -32,6 +33,7 @@ class FilterImageCreator implements FilterRepository
             $imageClaviskaSimpleImage = $this->claviskaSimpleImage;
             $imageClaviskaSimpleImage
                 ->fromFile("$imagePath/$imageName.$imageExtension")
+                ->resize(300, 300)
                 ->duotone('white', 'black')
                 ->toFile("$imagePath/$imageRename.png", 'image/png');
         } catch (\Exception $err) {
@@ -46,6 +48,7 @@ class FilterImageCreator implements FilterRepository
             $imageClaviskaSimpleImage = $this->claviskaSimpleImage;
             $imageClaviskaSimpleImage
                 ->fromFile("$imagePath/$imageName.$imageExtension")
+                ->resize(300, 300)
                 ->flip('x')
                 ->border('black', 5)
                 ->toFile("$imagePath/$imageRename.png", 'image/png');
@@ -61,6 +64,7 @@ class FilterImageCreator implements FilterRepository
             $imageClaviskaSimpleImage = $this->claviskaSimpleImage;
             $imageClaviskaSimpleImage
                 ->fromFile("$imagePath/$imageName.$imageExtension")
+                ->resize(300, 300)
                 ->flip('y')
                 ->border('black', 5)
                 ->toFile("$imagePath/$imageRename.png", 'image/png');
@@ -76,6 +80,7 @@ class FilterImageCreator implements FilterRepository
             $imageClaviskaSimpleImage = $this->claviskaSimpleImage;
             $imageClaviskaSimpleImage
                 ->fromFile("$imagePath/$imageName.$imageExtension")
+                ->resize(300, 300)
                 ->flip('x')
                 ->flip('y')
                 ->colorize('DarkBlue')
