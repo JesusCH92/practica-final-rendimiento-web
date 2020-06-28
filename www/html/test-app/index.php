@@ -21,6 +21,7 @@ use TestApp\ImageDocumentSearcherController;
 use TestApp\TagCreatorController;
 use TestApp\SavePhotosInMemoryController;
 use TestApp\SearchImagesController;
+use TestApp\Shared\Infrastructure\ImageDBConnector;
 use TestApp\TagDeleterController;
 use TestApp\UploadImageController;
 
@@ -32,6 +33,38 @@ use TestApp\UploadImageController;
 $elasticsearch = $client = ClientBuilder::create()->setHosts(["elasticsearch:9200"])->build();
 $guzzle = new GuzzleClient();
 $symfonyEventDispatcher = new EventDispatcher();
+
+$params = [
+    'index' => ImageDBConnector::INDEXNAME,
+    'body' => [
+        'mappings' => [
+            'properties' => [
+                'image_path' => [
+                    'type' => 'text'
+                ],
+                'image_name' => [
+                    'type' => 'text'
+                ],
+                'image_rename' => [
+                    'type' => 'text'
+                ],
+                'image_extension' => [
+                    'type' => 'text'
+                ],
+                'tags' => [
+                    'type' => 'keyword'
+                ],
+                'description' => [
+                    'type' => 'text'
+                ],
+            ]
+        ]
+    ]
+];
+
+if (!$elasticsearch->indices()->exists(['index' => ImageDBConnector::INDEXNAME])){
+    $elasticsearch->indices()->create($params);
+}
 
 $dc = [
     'elasticsearch' => $elasticsearch,
