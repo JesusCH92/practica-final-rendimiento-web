@@ -20,36 +20,6 @@ class ImageDBConnector
         $this->redis = new \Redis();
         $this->redis->connect('redis');
         $this->elasticsearch = ClientBuilder::create()->setHosts(["elasticsearch:9200"])->build();
-        $params = [
-            'index' => self::INDEXNAME,
-            'body' => [
-                'mappings' => [
-                    'properties' => [
-                        'image_path' => [
-                            'type' => 'text'
-                        ],
-                        'image_name' => [
-                            'type' => 'text'
-                        ],
-                        'image_rename' => [
-                            'type' => 'text'
-                        ],
-                        'image_extension' => [
-                            'type' => 'text'
-                        ],
-                        'tags' => [
-                            'type' => 'keyword'
-                        ],
-                        'description' => [
-                            'type' => 'text'
-                        ],
-                    ]
-                ]
-            ]
-        ];
-        if (!$this->elasticsearch->indices()->exists(['index' => self::INDEXNAME])){
-            $this->elasticsearch->indices()->create($params);
-        }
     }
 
     public function pdo()
