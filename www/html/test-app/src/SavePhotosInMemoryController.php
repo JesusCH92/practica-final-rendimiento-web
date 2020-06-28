@@ -49,6 +49,7 @@ class SavePhotosInMemoryController extends BaseController
 
         $fileName = $fileNameAndExtension[0];
         $fileRename = $uuid->toString();
+        var_dump($fileRename);
         $fileExtension = $fileNameAndExtension[1];
 
         $routeFiles = __DIR__ . '/../assets/files';
@@ -56,10 +57,10 @@ class SavePhotosInMemoryController extends BaseController
             die('no ha seleccionado ningun archivo');
         } 
         if (!move_uploaded_file($templocation, "$routeFiles/$fileRename.$fileExtension")) {
-            echo 'error al guardar archivo';
+            die('error al guardar archivo');
         }
 
-        $imageCreateDomainEvent = new ImageCreateDomainEvent($routeFiles, $fileName, $fileRename,$fileExtension, "");
+        $imageCreateDomainEvent = new ImageCreateDomainEvent($routeFiles, $fileName, $fileRename, $fileExtension, "");
         $symfonyEventDispatcher->dispatch($imageCreateDomainEvent, ImageCreateDomainEvent::EVENTNAME);
 
         foreach (self::IMAGESFILTERCONSUMERS as $imageFilterConsumer) {
