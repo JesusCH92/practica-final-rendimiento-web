@@ -1,6 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block stylesheets %} {{ parent() }} {% endblock %}
+{% block stylesheets %} 
+    {{ parent() }} 
+    <link rel="stylesheet" href="/assets/css/dropzone.css" type="text/css">
+{% endblock %}
 
 {% block body %}
     <form action="/save_photos" class="dropzone" method="POST" id="dropzoneFrom">
@@ -20,6 +23,7 @@
 
 {% block javascripts %}
     {{ parent() }}
+    <script type="text/javascript" src="/assets/js/dropzone.js"></script>  
     <script type="text/javascript" src="/assets/js/ModuleLoadImage.js"></script>
 
 {% endblock %}
