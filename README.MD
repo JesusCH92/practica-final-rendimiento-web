@@ -125,12 +125,26 @@ ON images (image_rename);
 4. **`Searcher Images in ElasticSearch`**: esta funcionalidad encontrará resultados según el input de entrada de forma difusa en el nombre de los tags y en la descripción, además de encontrar search-as-you-type, en la imagen podemos ver el resultado de buscar la palabra **`word`**
 ![SearcherImages](https://i.imgur.com/Fc27hz2.png)
 
-## Instalación
+## Verificar los documentos en elasticsearch
 
-- [Instalar Docker](https://docs.docker.com/install/)
-- [Instalar docker-compose](https://docs.docker.com/compose/install/)
-- Exportar las variables de entorno necesarias para el [correcto funcionamiento de Blackfire](https://blackfire.io/docs/integrations/docker) y crear el alias `blackfire-curl`. Esta configuración se encuentra en el archivo `.env`
-- Ejecutar `docker-compose up -d`
+1. Para mirar todos los documentos (despues de crearlos desde la app), acceda al siguiente endpoint con método **`POST`** desde postman:
+```
+http://localhost:9200/imagesmpwar/_search
+```
+  En el body debe poner lo siguiente:
+```JSON
+{
+    "query": {
+        "match_all" : {}
+    }
+}
+```
+![DocumentsElastisearch](https://i.imgur.com/gwMgE5f.png)
+
+2. Para verificar un documento en especifico, acceda a la base de datos y seleccione el campo **`image_rename`** del documento que desea inspeccionar:
+![IdDocumento](https://i.imgur.com/5Mo4uaW.png)
+Despues acceda al siguiente endpoint con el método **`GET`** y coloque el id que quiere revisar
+![DocumentInElasticsearch](https://i.imgur.com/ozCe2IF.png)
 
 ## Servicios
 
