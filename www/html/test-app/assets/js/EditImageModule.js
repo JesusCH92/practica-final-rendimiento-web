@@ -23,10 +23,6 @@ var EditImageModule = (function(){
         $tagContainer.children().last().append('<div class="delete-tag"></div>')
     }
 
-    // var paintdeleteElement = function({element}){
-    //     element.remove();
-    // }
-
     var paintDescription = function({descriptionText, uuidImage}){
         var $descriptionContainer = $($addDescriptionContainer + uuidImage + "']");
         $descriptionContainer.children().text(descriptionText);
@@ -90,7 +86,6 @@ var EditImageModule = (function(){
             if ( !$(event.target).hasClass('delete-tag')) {
                 return;
             }
-            console.log('quieres eliminar este tag?');
             var $tagToDelete = $(event.target).parent();
             var $textTagToDelete = $.trim($tagToDelete.text());
 
@@ -111,8 +106,7 @@ var EditImageModule = (function(){
                 return;
             }
             var $imageName = $descriptionInput.parent().attr('name-photo');
-            console.log($descriptionInputText);
-            console.log($imageName);
+
             addDescriptionToImage({description: $descriptionInputText, imageName: $imageName, callback:paintDescription});
 
             cleanElement({element: $($inputDescription + $idDescription)});
