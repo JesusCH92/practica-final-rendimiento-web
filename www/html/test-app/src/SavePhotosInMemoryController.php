@@ -26,8 +26,10 @@ class SavePhotosInMemoryController extends BaseController
         $imageCreatorListener = new ImageCreatorListener($imageInDatabase);
 
         // $this->dc['elasticsearch']->indices()->delete(['index' => ImageDBConnector::INDEXNAME]);
-        // $this->dc['redis']->delete($this->dc['redis']->keys('*'));
-        // var_dump($this->dc['redis']->keys('*'));exit; echo 'works, is die' . PHP_EOL;
+        // $redis = new \Redis();
+        // $redis->connect('redis');
+        // $redis->delete($redis->keys('*'));
+        // var_dump($redis->keys('*'));exit; echo 'works, is die' . PHP_EOL;
 
         $symfonyEventDispatcher = $this->dc['symfonyEventDispatcher'];
 
